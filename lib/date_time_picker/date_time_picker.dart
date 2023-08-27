@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:date_time_picker/date_time_picker/cubit/date_cubit.dart';
+import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
 import 'package:date_time_picker/date_time_picker/date_wheel_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +33,7 @@ class DateTimePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DateCubit(),
+      create: (context) => DateTimeCubit(),
       child: const Column(
         children: [
           DateWheelSelector(),
