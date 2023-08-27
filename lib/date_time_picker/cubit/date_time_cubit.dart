@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,12 +42,13 @@ class DateTimeCubit extends Cubit<DateTimeState> {
   }
 
   void jumpTo(DateTime dateTime) {
+    final Random random = Random();
     emit(DateTimeState(
       dateTime,
       dateTime.hour >= 12 ? Median.PM : Median.AM,
       _daysInMonth(dateTime.month, dateTime.year),
       jumpToDateTime: true,
-      showDate: !state.showDate,
+      showDate: random.nextBool(),
     ));
   }
 
