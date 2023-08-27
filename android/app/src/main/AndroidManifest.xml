@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="reverse.domain.bundleSuffix">
+    package="com.icodeforyou.date_time_picker">
    <application
-        android:label="MyAppName"
+        android:label="Date Time Picker"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
