@@ -9,9 +9,15 @@ class DateTimeState {
   final Median median;
   final int daysInMonth;
   final bool jumpToDateTime;
+  final bool showDate;
 
-  DateTimeState(this.dateTime, this.median, this.daysInMonth,
-      {this.jumpToDateTime = false});
+  DateTimeState(
+    this.dateTime,
+    this.median,
+    this.daysInMonth, {
+    this.jumpToDateTime = false,
+    required this.showDate,
+  });
 }
 
 class DateTimeCubit extends Cubit<DateTimeState> {
@@ -21,6 +27,7 @@ class DateTimeCubit extends Cubit<DateTimeState> {
           DateTime.now().hour >= 12 ? Median.PM : Median.AM,
           _daysInMonth(DateTime.now().month, DateTime.now().year),
           jumpToDateTime: true,
+          showDate: true,
         ));
 
   static int _daysInMonth(int month, int year) {
@@ -38,6 +45,7 @@ class DateTimeCubit extends Cubit<DateTimeState> {
       dateTime.hour >= 12 ? Median.PM : Median.AM,
       _daysInMonth(dateTime.month, dateTime.year),
       jumpToDateTime: true,
+      showDate: !state.showDate,
     ));
   }
 
@@ -85,6 +93,7 @@ class DateTimeCubit extends Cubit<DateTimeState> {
     int? hour,
     int? minute,
     int? second,
+    bool? showDate,
   }) {
     DateTime newDateTime = state.dateTime.copyWith(
       year: year ?? state.dateTime.year,
@@ -101,6 +110,7 @@ class DateTimeCubit extends Cubit<DateTimeState> {
       newDateTime,
       newDateTime.hour >= 12 ? Median.PM : Median.AM,
       _daysInMonth(newDateTime.month, newDateTime.year),
+      showDate: showDate ?? state.showDate,
     ));
   }
 }
