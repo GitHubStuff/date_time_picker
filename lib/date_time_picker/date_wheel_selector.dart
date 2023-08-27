@@ -6,11 +6,15 @@ import 'package:intl/intl.dart';
 import 'date_time_picker.dart';
 
 const double _scaler = 3.4;
+const TextStyle _textStyle = TextStyle(
+  fontSize: 20.0,
+  fontWeight: FontWeight.w500,
+);
 
 class DateWheelSelector extends StatefulWidget {
   final Size size;
 
-  const DateWheelSelector({super.key, this.size = const Size(200, 100)});
+  const DateWheelSelector({super.key, this.size = const Size(220, 150)});
 
   @override
   State<DateWheelSelector> createState() => _DateWheelSelector();
@@ -27,8 +31,8 @@ class _DateWheelSelector extends State<DateWheelSelector> {
   @override
   void initState() {
     super.initState();
-    _extent = widget.size.height / 6.0;
-    _offset = -(0.56 * _extent - 8.0);
+    _extent = widget.size.height / 5.0;
+    _offset = -(0.56 * _extent - 12.0);
   }
 
   @override
@@ -100,7 +104,7 @@ class _DateWheelSelector extends State<DateWheelSelector> {
       child: SizedBox(
         height: widget.size.height,
         width: 8.0,
-        child: const Center(child: Text('-')),
+        child: const Center(child: Text('-', style: _textStyle)),
       ),
     );
   }
@@ -119,7 +123,8 @@ class _DateWheelSelector extends State<DateWheelSelector> {
         magnification: 1.2,
         useMagnifier: true,
         itemExtent: _extent,
-        children: List.generate(301, (index) => Text('${1900 + index}')),
+        children: List.generate(
+            301, (index) => Text('${1900 + index}', style: _textStyle)),
       ),
     );
   }
@@ -141,7 +146,8 @@ class _DateWheelSelector extends State<DateWheelSelector> {
         magnification: 1.2,
         useMagnifier: true,
         itemExtent: _extent,
-        children: months.map((month) => Text(month)).toList(),
+        children:
+            months.map((month) => Text(month, style: _textStyle)).toList(),
       ),
     );
   }
@@ -160,8 +166,10 @@ class _DateWheelSelector extends State<DateWheelSelector> {
         magnification: 1.2,
         useMagnifier: true,
         itemExtent: _extent,
-        children:
-            List.generate(state.daysInMonth, (index) => Text('${index + 1}')),
+        children: List.generate(
+          state.daysInMonth,
+          (index) => Text('${index + 1}', style: _textStyle),
+        ),
       ),
     );
   }
