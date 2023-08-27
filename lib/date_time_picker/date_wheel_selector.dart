@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import 'date_time_picker.dart';
-
 const double _scaler = 3.4;
 
 class DateWheelSelector extends StatefulWidget {
@@ -24,13 +22,11 @@ class _DateWheelSelector extends State<DateWheelSelector>
   final dayController = FixedExtentScrollController();
 
   late double _extent;
-  //late double _offset;
 
   @override
   void initState() {
     super.initState();
     _extent = widget.size.height / 5.0;
-    //_offset = -(0.56 * _extent - 12.0);
   }
 
   @override
@@ -42,51 +38,34 @@ class _DateWheelSelector extends State<DateWheelSelector>
           monthController.jumpToItem(state.dateTime.month - 1);
           dayController.jumpToItem(state.dateTime.day - 1);
         }
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                Container(
-                  color: Colors.purple[50],
-                  height: widget.size.height,
-                  width: widget.size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildYearWheel(context, state.dateTime.year),
-                      staticTextWheel(
-                          extent: _extent, content: Text('-', style: textStyle,)),
-                      _buildMonthWheel(context, state.dateTime.month),
-                      staticTextWheel(
-                          extent: _extent, content: Text('-', style: textStyle,)),
-                      _buildDayWheel(
-                        context,
-                        state: state,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                color: Colors.green[100],
-                child: GestureDetector(
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Jump to Random Date'),
-                  ),
-                  onTap: () {
-                    context
-                        .read<DateTimeCubit>()
-                        .jumpTo(generateRandomDateTime());
-                  },
-                ),
+        return Container(
+          color: Colors.purple[50],
+          height: widget.size.height,
+          width: widget.size.width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(width: 4.0),
+              _buildYearWheel(context, state.dateTime.year),
+              staticTextWheel(
+                  extent: _extent,
+                  content: Text(
+                    '-',
+                    style: textStyle,
+                  )),
+              _buildMonthWheel(context, state.dateTime.month),
+              staticTextWheel(
+                  extent: _extent,
+                  content: Text(
+                    '-',
+                    style: textStyle,
+                  )),
+              _buildDayWheel(
+                context,
+                state: state,
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
@@ -137,8 +116,7 @@ class _DateWheelSelector extends State<DateWheelSelector>
         magnification: 1.2,
         useMagnifier: true,
         itemExtent: _extent,
-        children:
-            months.map((month) => Text(month, style: textStyle)).toList(),
+        children: months.map((month) => Text(month, style: textStyle)).toList(),
       ),
     );
   }

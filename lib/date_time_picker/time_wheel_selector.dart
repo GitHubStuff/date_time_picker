@@ -8,10 +8,10 @@ class TimeWheelSelector extends StatefulWidget {
   final Size size;
 
   const TimeWheelSelector({
-    Key? key,
+    super.key,
     this.useSeconds = false,
     this.size = const Size(220, 150),
-  }) : super(key: key);
+  });
 
   @override
   State<TimeWheelSelector> createState() => _TimeWheelSelector();
@@ -36,6 +36,13 @@ class _TimeWheelSelector extends State<TimeWheelSelector>
   Widget build(BuildContext context) {
     return BlocBuilder<DateTimeCubit, DateTimeState>(
       builder: (context, state) {
+        if (state.jumpToDateTime) {
+          hourController.jumpToItem(state.dateTime.hour % 12);
+          minuteController.jumpToItem(state.dateTime.minute);
+          secondController.jumpToItem(state.dateTime.second);
+          medianController.jumpToItem(state.median.index);
+        }
+
         return Container(
           color: Colors.blue[50],
           height: widget.size.height,

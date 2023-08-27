@@ -19,6 +19,7 @@ class DateTimeCubit extends Cubit<DateTimeState> {
           DateTime.now(),
           DateTime.now().hour >= 12 ? Median.PM : Median.AM,
           _daysInMonth(DateTime.now().month, DateTime.now().year),
+          jumpToDateTime: true,
         ));
 
   static int _daysInMonth(int month, int year) {
