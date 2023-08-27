@@ -37,10 +37,12 @@ class _TimeWheelSelector extends State<TimeWheelSelector>
     return BlocBuilder<DateTimeCubit, DateTimeState>(
       builder: (context, state) {
         if (state.jumpToDateTime) {
-          hourController.jumpToItem(state.dateTime.hour % 12);
-          minuteController.jumpToItem(state.dateTime.minute);
-          secondController.jumpToItem(state.dateTime.second);
-          medianController.jumpToItem(state.median.index);
+          Future.delayed(Duration.zero, () {
+            hourController.jumpToItem(state.dateTime.hour % 12);
+            minuteController.jumpToItem(state.dateTime.minute);
+            secondController.jumpToItem(state.dateTime.second);
+            medianController.jumpToItem(state.median.index);
+          });
         }
 
         return Container(
@@ -77,8 +79,6 @@ class _TimeWheelSelector extends State<TimeWheelSelector>
   }
 
   Widget _buildHourWheel(BuildContext context, int selectedHour) {
-    int displayHour = (selectedHour % 12 == 0) ? 12 : selectedHour % 12;
-
     return SizedBox(
       width: widget.size.width / 4.0,
       height: widget.size.height,
@@ -86,9 +86,11 @@ class _TimeWheelSelector extends State<TimeWheelSelector>
         controller: hourController,
         physics: const FixedExtentScrollPhysics(),
         onSelectedItemChanged: (hour) {
-          int adjustedHour =
-              (selectedHour > 11 && hour != 11) ? hour + 12 : hour;
-          context.read<DateTimeCubit>().updateHour(adjustedHour);
+          debugPrint('Hour changed to $hour');
+
+          // int adjustedHour =
+          //     (selectedHour > 11 && hour != 11) ? hour + 12 : hour;
+          context.read<DateTimeCubit>().updateHour(hour);
         },
         diameterRatio: 1.5,
         magnification: 1.2,
@@ -96,8 +98,7 @@ class _TimeWheelSelector extends State<TimeWheelSelector>
         itemExtent: _extent,
         children: List.generate(
           12,
-          (index) => Text(
-              '${(displayHour + index) % 12 == 0 ? 12 : (displayHour + index) % 12}',
+          (index) => Text('${(index) % 12 == 0 ? 12 : (index) % 12}',
               style: textStyle),
         ),
       ),

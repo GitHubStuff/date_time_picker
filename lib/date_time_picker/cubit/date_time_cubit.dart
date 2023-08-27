@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: constant_identifier_names
@@ -24,10 +25,11 @@ class DateTimeCubit extends Cubit<DateTimeState> {
 
   static int _daysInMonth(int month, int year) {
     List<int> monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    if (month == 2 && (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))) {
-      return 29;
-    }
-    return monthDays[month - 1];
+
+    return (month == 2 &&
+            (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)))
+        ? 29
+        : monthDays[month - 1];
   }
 
   void jumpTo(DateTime dateTime) {
@@ -40,24 +42,18 @@ class DateTimeCubit extends Cubit<DateTimeState> {
   }
 
   void updateYear(int year) {
-    if (year < 1900 || year > 2200) return;
     updateDateTime(year: year);
   }
 
   void updateMonth(int month) {
-    if (month < 0 || month > 11) return;
     updateDateTime(month: month + 1);
   }
 
   void updateDay(int day) {
-    if (day < 1 || day > state.daysInMonth) return;
     updateDateTime(day: day);
   }
 
   void updateHour(int hour) {
-    if (hour < 1 || hour > 12) return;
-
-    // Convert 12-hour format to 24-hour format
     if (state.median == Median.PM && hour != 12) hour += 12;
     if (state.median == Median.AM && hour == 12) hour = 0;
 
@@ -65,12 +61,10 @@ class DateTimeCubit extends Cubit<DateTimeState> {
   }
 
   void updateMinute(int minute) {
-    if (minute < 0 || minute > 59) return;
     updateDateTime(minute: minute);
   }
 
   void updateSecond(int second) {
-    if (second < 0 || second > 59) return;
     updateDateTime(second: second);
   }
 
@@ -93,15 +87,16 @@ class DateTimeCubit extends Cubit<DateTimeState> {
     int? second,
   }) {
     DateTime newDateTime = state.dateTime.copyWith(
-      year: year,
-      month: month,
-      day: day,
-      hour: hour,
-      minute: minute,
-      second: second,
+      year: year ?? state.dateTime.year,
+      month: month ?? state.dateTime.month,
+      day: day ?? state.dateTime.day,
+      hour: hour ?? state.dateTime.hour,
+      minute: minute ?? state.dateTime.minute,
+      second: second ?? state.dateTime.second,
       millisecond: 0,
       microsecond: 0,
     );
+    debugPrint('New DateTime: $newDateTime');
     emit(DateTimeState(
       newDateTime,
       newDateTime.hour >= 12 ? Median.PM : Median.AM,

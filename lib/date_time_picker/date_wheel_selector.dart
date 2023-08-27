@@ -34,9 +34,11 @@ class _DateWheelSelector extends State<DateWheelSelector>
     return BlocBuilder<DateTimeCubit, DateTimeState>(
       builder: (context, state) {
         if (state.jumpToDateTime) {
-          yearController.jumpToItem(state.dateTime.year - 1900);
-          monthController.jumpToItem(state.dateTime.month - 1);
-          dayController.jumpToItem(state.dateTime.day - 1);
+          Future.delayed(Duration.zero, () {
+            yearController.jumpToItem(state.dateTime.year - 1900);
+            monthController.jumpToItem(state.dateTime.month - 1);
+            dayController.jumpToItem(state.dateTime.day - 1);
+          });
         }
         return Container(
           color: Colors.purple[50],
