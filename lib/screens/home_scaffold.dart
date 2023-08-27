@@ -1,5 +1,6 @@
 // ignore_for_file: sort_child_properties_last
 
+import 'package:date_time_picker/date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../gen/assets.gen.dart';
@@ -28,6 +29,7 @@ class HomeScaffold extends StatelessWidget {
               child: Assets.images.ltmm1024x1024.image(),
             ),
           ),
+          const DateTimePicker()
         ],
       ),
     );
