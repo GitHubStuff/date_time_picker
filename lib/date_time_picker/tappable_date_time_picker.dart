@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class PickerOpener extends StatefulWidget {
   final Widget child;
 
-  const PickerOpener({super.key, required this.child});
+  const PickerOpener({Key? key, required this.child}) : super(key: key);
 
   @override
   State<PickerOpener> createState() => _PickerOpenerState();
@@ -22,32 +22,33 @@ class _PickerOpenerState extends State<PickerOpener> {
     final spaceBelow = MediaQuery.of(context).size.height -
         (position.dy + renderBox.size.height);
 
-    Widget pickerContainer(double height) {
-      return Container(
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        if (spaceAbove > spaceBelow) {
+          return pickerContainer(spaceAbove);
+        } else {
+          return pickerContainer(spaceBelow);
+        }
+      },
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent, // make it transparent
+    );
+  }
+
+  Widget pickerContainer(double height) {
+    return GestureDetector(
+      onTap: () {},
+      onVerticalDragDown: (details) {
+        Navigator.pop(context); // Close the bottom sheet on drag down
+      },
+      behavior: HitTestBehavior
+          .opaque, // This is to handle the tap event and prevent it from being propagated down
+      child: SizedBox(
         height: height,
         child: const DateTimePicker(),
-      );
-    }
-
-    if (spaceAbove > spaceBelow) {
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return pickerContainer(spaceAbove);
-        },
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true,
-      );
-    } else {
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return pickerContainer(spaceBelow);
-        },
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true,
-      );
-    }
+      ),
+    );
   }
 
   @override

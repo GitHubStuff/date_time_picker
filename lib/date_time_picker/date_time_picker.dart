@@ -14,16 +14,19 @@ class DateTimePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PickerStyles.init();
-    return BlocProvider(
-      create: (context) => DateTimeCubit(),
-      child: const Column(
-        children: [
-          DateTimeHeader(
-            setWidget: Text('🟢'),
-          ),
-          DateTimeToggle(),
-          ShowDateTimeStack(),
-        ],
+    return Material(
+      type: MaterialType.transparency,
+      child: BlocProvider(
+        create: (context) => DateTimeCubit(),
+        child: const Column(
+          children: [
+            DateTimeHeader(
+              setWidget: Text('🟢'),
+            ),
+            DateTimeToggle(),
+            ShowDateTimeStack(),
+          ],
+        ),
       ),
     );
   }
