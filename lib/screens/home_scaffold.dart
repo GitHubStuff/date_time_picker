@@ -1,6 +1,5 @@
-// ignore_for_file: sort_child_properties_last
-
-import 'package:date_time_picker/date_time_picker/date_time_picker.dart';
+import 'package:date_time_picker/date_time_picker/show_date_timer_picker_modal.dart';
+import 'package:date_time_picker/date_time_picker/tappable_date_time_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../gen/assets.gen.dart';
@@ -21,6 +20,12 @@ class HomeScaffold extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          ElevatedButton(
+              onPressed: () async {
+                showDateTimePickerModal(context);
+                debugPrint('Zerk 🔸');
+              },
+              child: const PickerOpener(child: Text('Popover'))),
           SizedBox(
             width: 200,
             height: 200,
@@ -29,7 +34,19 @@ class HomeScaffold extends StatelessWidget {
               child: Assets.images.ltmm1024x1024.image(),
             ),
           ),
-          const DateTimePicker()
+          //const DateTimePicker()
+          ElevatedButton(
+              onPressed: () async {
+                showDateTimePickerModal(context);
+                debugPrint('Zerk 🔸');
+              },
+              child: const Text('Show Picker')),
+          ElevatedButton(
+              onPressed: () async {
+                showDateTimePickerModal(context);
+                debugPrint('Zerk 🔸');
+              },
+              child: const PickerOpener(child: Text('Popover'))),
         ],
       ),
     );
