@@ -23,7 +23,6 @@ class DateTimePicker extends StatelessWidget {
           ),
           DateTimeToggle(),
           ShowDateTimeStack(),
-          //JumpToRandomDateButton(),
         ],
       ),
     );

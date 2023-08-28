@@ -22,26 +22,29 @@ class _PickerOpenerState extends State<PickerOpener> {
     final spaceBelow = MediaQuery.of(context).size.height -
         (position.dy + renderBox.size.height);
 
+    Widget pickerContainer(double height) {
+      return Container(
+        height: height,
+        child: const DateTimePicker(),
+      );
+    }
+
     if (spaceAbove > spaceBelow) {
       showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
-          return SizedBox(
-            height: spaceAbove,
-            child: const DateTimePicker(),
-          );
+          return pickerContainer(spaceAbove);
         },
+        backgroundColor: Colors.transparent,
         isScrollControlled: true,
       );
     } else {
       showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
-          return SizedBox(
-            height: spaceBelow,
-            child: const DateTimePicker(),
-          );
+          return pickerContainer(spaceBelow);
         },
+        backgroundColor: Colors.transparent,
         isScrollControlled: true,
       );
     }

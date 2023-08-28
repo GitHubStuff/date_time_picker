@@ -13,13 +13,19 @@ class PickerStyles {
     TextStyle? textStyle,
     TextStyle? headerStyle,
   }) {
-    _instance.dateColor = dateColor ?? Colors.purple[100]!;
-    _instance.timeColor = timeColor ?? Colors.green[100]!;
-    _instance.headerColor = headerColor ?? Colors.blue[100]!;
+    _instance.dateColor = dateColor ?? const Color(0xff003366);
+    _instance.timeColor = timeColor ?? const Color(0xff4b0082);
+    _instance.headerColor = headerColor ?? const Color(0xff002855);
     _instance.textStyle = textStyle ??
-        const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500);
+        const TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.w500,
+            color: Color(0xffff4500));
     _instance.headerStyle = headerStyle ??
-        const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500);
+        const TextStyle(
+            fontSize: 18.0,
+            fontWeight: FontWeight.w500,
+            color: Color(0xffff4500));
     return _instance;
   }
 
