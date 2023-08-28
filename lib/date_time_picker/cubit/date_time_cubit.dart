@@ -20,6 +20,22 @@ class DateTimeState {
     this.jumpToDateTime = false,
     required this.showDate,
   });
+
+  DateTimeState copyWith({
+    DateTime? dateTime,
+    Median? median,
+    int? daysInMonth,
+    bool? jumpToDateTime,
+    bool? showDate,
+  }) {
+    return DateTimeState(
+      dateTime ?? this.dateTime,
+      median ?? this.median,
+      daysInMonth ?? this.daysInMonth,
+      jumpToDateTime: jumpToDateTime ?? this.jumpToDateTime,
+      showDate: showDate ?? this.showDate,
+    );
+  }
 }
 
 class DateTimeCubit extends Cubit<DateTimeState> {
@@ -52,6 +68,10 @@ class DateTimeCubit extends Cubit<DateTimeState> {
     ));
   }
 
+  void showPicker({required bool date}) {
+    emit(state.copyWith(showDate: date));
+  }
+  
   void updateYear(int year) {
     updateDateTime(year: year);
   }

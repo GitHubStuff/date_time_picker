@@ -1,4 +1,3 @@
-
 import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
 import 'package:date_time_picker/date_time_picker/random_date_button.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +18,6 @@ mixin StaticTextWheelMixin<T extends StatefulWidget> on State<T> {
     );
   }
 
-  TextStyle get textStyle => const TextStyle(
-        fontSize: 20.0,
-        fontWeight: FontWeight.w500,
-      );
-
   Widget button(BuildContext context) => Padding(
         padding: const EdgeInsets.all(16.0),
         child: Container(
@@ -39,6 +33,4 @@ mixin StaticTextWheelMixin<T extends StatefulWidget> on State<T> {
           ),
         ),
       );
-
-  
 }

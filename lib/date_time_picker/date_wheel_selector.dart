@@ -1,4 +1,5 @@
 import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
+import 'package:date_time_picker/date_time_picker/picker_styles.dart';
 import 'package:date_time_picker/date_time_picker/static_text_wheel_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +10,7 @@ const double _scaler = 3.4;
 class DateWheelSelector extends StatefulWidget {
   final Size size;
 
-  const DateWheelSelector({super.key, this.size = const Size(220, 150)});
+  const DateWheelSelector({super.key, this.size = const Size(230, 150)});
 
   @override
   State<DateWheelSelector> createState() => _DateWheelSelector();
@@ -41,7 +42,7 @@ class _DateWheelSelector extends State<DateWheelSelector>
           });
         }
         return Container(
-          color: Colors.purple[50],
+          color: PickerStyles().dateColor,
           height: widget.size.height,
           width: widget.size.width,
           child: Row(
@@ -53,14 +54,14 @@ class _DateWheelSelector extends State<DateWheelSelector>
                   extent: _extent,
                   content: Text(
                     '-',
-                    style: textStyle,
+                    style: PickerStyles().textStyle,
                   )),
               _buildMonthWheel(context, state.dateTime.month),
               staticTextWheel(
                   extent: _extent,
                   content: Text(
                     '-',
-                    style: textStyle,
+                    style: PickerStyles().textStyle,
                   )),
               _buildDayWheel(
                 context,
@@ -96,7 +97,9 @@ class _DateWheelSelector extends State<DateWheelSelector>
         useMagnifier: true,
         itemExtent: _extent,
         children: List.generate(
-            301, (index) => Text('${1900 + index}', style: textStyle)),
+            301,
+            (index) =>
+                Text('${1900 + index}', style: PickerStyles().textStyle)),
       ),
     );
   }
@@ -118,7 +121,9 @@ class _DateWheelSelector extends State<DateWheelSelector>
         magnification: 1.2,
         useMagnifier: true,
         itemExtent: _extent,
-        children: months.map((month) => Text(month, style: textStyle)).toList(),
+        children: months
+            .map((month) => Text(month, style: PickerStyles().textStyle))
+            .toList(),
       ),
     );
   }
@@ -139,7 +144,7 @@ class _DateWheelSelector extends State<DateWheelSelector>
         itemExtent: _extent,
         children: List.generate(
           state.daysInMonth,
-          (index) => Text('${index + 1}', style: textStyle),
+          (index) => Text('${index + 1}', style: PickerStyles().textStyle),
         ),
       ),
     );

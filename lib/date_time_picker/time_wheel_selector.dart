@@ -1,4 +1,5 @@
 import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
+import 'package:date_time_picker/date_time_picker/picker_styles.dart';
 import 'package:date_time_picker/date_time_picker/static_text_wheel_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,7 @@ class TimeWheelSelector extends StatefulWidget {
   const TimeWheelSelector({
     super.key,
     this.useSeconds = false,
-    this.size = const Size(220, 150),
+    this.size = const Size(230, 150),
   });
 
   @override
@@ -46,7 +47,7 @@ class _TimeWheelSelector extends State<TimeWheelSelector>
         }
 
         return Container(
-          color: Colors.blue[50],
+          color: PickerStyles().timeColor,
           height: widget.size.height,
           width: widget.size.width,
           child: Row(
@@ -54,11 +55,13 @@ class _TimeWheelSelector extends State<TimeWheelSelector>
             children: [
               _buildHourWheel(context, state.dateTime.hour),
               staticTextWheel(
-                  extent: _extent, content: Text(':', style: textStyle)),
+                  extent: _extent,
+                  content: Text(':', style: PickerStyles().textStyle)),
               _buildMinuteWheel(context, state.dateTime.minute),
               if (widget.useSeconds) ...[
                 staticTextWheel(
-                    extent: _extent, content: Text(':', style: textStyle)),
+                    extent: _extent,
+                    content: Text(':', style: PickerStyles().textStyle)),
                 _buildSecondWheel(context, state.dateTime.second),
               ],
               _buildMedianWheel(context, state.median),
@@ -86,10 +89,6 @@ class _TimeWheelSelector extends State<TimeWheelSelector>
         controller: hourController,
         physics: const FixedExtentScrollPhysics(),
         onSelectedItemChanged: (hour) {
-          debugPrint('Hour changed to $hour');
-
-          // int adjustedHour =
-          //     (selectedHour > 11 && hour != 11) ? hour + 12 : hour;
           context.read<DateTimeCubit>().updateHour(hour);
         },
         diameterRatio: 1.5,
@@ -99,7 +98,7 @@ class _TimeWheelSelector extends State<TimeWheelSelector>
         children: List.generate(
           12,
           (index) => Text('${(index) % 12 == 0 ? 12 : (index) % 12}',
-              style: textStyle),
+              style: PickerStyles().textStyle),
         ),
       ),
     );
@@ -121,8 +120,8 @@ class _TimeWheelSelector extends State<TimeWheelSelector>
         itemExtent: _extent,
         children: List.generate(
             60,
-            (index) =>
-                Text(index.toString().padLeft(2, '0'), style: textStyle)),
+            (index) => Text(index.toString().padLeft(2, '0'),
+                style: PickerStyles().textStyle)),
       ),
     );
   }
@@ -143,8 +142,8 @@ class _TimeWheelSelector extends State<TimeWheelSelector>
         itemExtent: _extent,
         children: List.generate(
             60,
-            (index) =>
-                Text(index.toString().padLeft(2, '0'), style: textStyle)),
+            (index) => Text(index.toString().padLeft(2, '0'),
+                style: PickerStyles().textStyle)),
       ),
     );
   }
@@ -164,8 +163,8 @@ class _TimeWheelSelector extends State<TimeWheelSelector>
         useMagnifier: true,
         itemExtent: _extent,
         children: Median.values
-            .map((value) =>
-                Text(value == Median.AM ? 'AM' : 'PM', style: textStyle))
+            .map((value) => Text(value == Median.AM ? 'AM' : 'PM',
+                style: PickerStyles().textStyle))
             .toList(),
       ),
     );
