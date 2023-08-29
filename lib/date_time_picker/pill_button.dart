@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
 class AquaButton extends StatelessWidget {
-  const AquaButton({Key? key}) : super(key: key);
+  final MaterialColor color;
+  final double mainRadius;
+
+  const AquaButton({
+    Key? key,
+    this.color = Colors.purple,
+    this.mainRadius = 10.0,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double mainRadius = 10;
-    double northPoleRadius = mainRadius * 0.85; // Slightly increasing the size
+    double northPoleRadius = mainRadius * 0.85;
 
     return Container(
       width: mainRadius * 2,
@@ -16,10 +22,10 @@ class AquaButton extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Colors.red,
-            Colors.red[900]!,
-            Colors.red[700]!,
-            Colors.red[500]!,
+            color,
+            color[900]!,
+            color[700]!,
+            color[500]!,
           ],
         ),
         shape: BoxShape.circle,
@@ -28,8 +34,8 @@ class AquaButton extends StatelessWidget {
         children: [
           // North pole
           Positioned(
-            left: mainRadius - northPoleRadius, // + (northPoleRadius / 7.0),
-            top: -northPoleRadius / 1.3, // Adjusting position
+            left: mainRadius - northPoleRadius,
+            top: -northPoleRadius / 1.3,
             child: Container(
               width: northPoleRadius * 2.0,
               height: northPoleRadius * 2.0,
@@ -39,7 +45,7 @@ class AquaButton extends StatelessWidget {
                     Colors.white.withOpacity(0.55),
                     Colors.transparent,
                   ],
-                  stops: const [0.09, 0.8], // More dramatic fade
+                  stops: const [0.09, 0.8],
                 ),
                 shape: BoxShape.circle,
               ),
@@ -51,7 +57,7 @@ class AquaButton extends StatelessWidget {
             child: ClipOval(
               child: CustomPaint(
                 size: Size(mainRadius * 2, mainRadius * 2),
-                painter: _TrianglePainter(),
+                painter: _TrianglePainter(mainRadius: mainRadius),
               ),
             ),
           ),
@@ -62,10 +68,14 @@ class AquaButton extends StatelessWidget {
 }
 
 class _TrianglePainter extends CustomPainter {
+  final double mainRadius;
+
+  _TrianglePainter({required this.mainRadius});
+
   @override
   void paint(Canvas canvas, Size size) {
-    double triangleHeight = size.height / 2.5; // Height of the triangle
-    double triangleBase = size.width * 1.0; // Base of the triangle
+    double triangleHeight = size.height / 2.5;
+    double triangleBase = size.width * 1.0;
 
     Path path = Path()
       ..moveTo(size.width / 2, size.height - triangleHeight)
@@ -73,7 +83,6 @@ class _TrianglePainter extends CustomPainter {
       ..lineTo(triangleBase, size.height)
       ..close();
 
-    // Gradient for the triangle
     final gradient = LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
