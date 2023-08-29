@@ -3,8 +3,18 @@ import 'package:flutter/material.dart';
 
 class PickerOpener extends StatefulWidget {
   final Widget child;
-
-  const PickerOpener({Key? key, required this.child}) : super(key: key);
+  final Widget setWidget;
+  final String dateTimeFormat;
+  final Widget dateCaption;
+  final Widget timeCaption;
+  const PickerOpener({
+    Key? key,
+    required this.child,
+    required this.setWidget,
+    required this.dateTimeFormat,
+    required this.dateCaption,
+    required this.timeCaption,
+  }) : super(key: key);
 
   @override
   State<PickerOpener> createState() => _PickerOpenerState();
@@ -42,11 +52,15 @@ class _PickerOpenerState extends State<PickerOpener> {
       onVerticalDragDown: (details) {
         Navigator.pop(context); // Close the bottom sheet on drag down
       },
-      behavior: HitTestBehavior
-          .opaque, // This is to handle the tap event and prevent it from being propagated down
+      behavior: HitTestBehavior.opaque,
       child: SizedBox(
         height: height,
-        child: const DateTimePicker(),
+        child: DateTimePicker(
+          dateCaption: widget.dateCaption,
+          timeCaption: widget.timeCaption,
+          dateTimeFormat: widget.dateTimeFormat,
+          dismissWidget: widget.setWidget,
+        ),
       ),
     );
   }

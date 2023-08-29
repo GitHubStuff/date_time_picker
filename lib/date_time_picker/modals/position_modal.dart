@@ -1,10 +1,17 @@
-import 'package:date_time_picker/date_time_picker/show_date_timer_picker_modal.dart';
+import 'package:date_time_picker/date_time_picker/modals/show_date_timer_picker_modal.dart';
 import 'package:flutter/material.dart';
 
 class PositionModal extends StatefulWidget {
   final Widget child;
+  final Widget dateCaption;
+  final Widget timeCaption;
 
-  const PositionModal({Key? key, required this.child}) : super(key: key);
+  const PositionModal({
+    Key? key,
+    required this.child,
+    required this.dateCaption,
+    required this.timeCaption,
+  }) : super(key: key);
 
   @override
   State<PositionModal> createState() => _PositionModal();
@@ -19,10 +26,15 @@ class _PositionModal extends State<PositionModal> {
     final position = renderBox.localToGlobal(Offset.zero);
 
     final x = position.dx;
-    final y = position.dy +
-        renderBox.size.height; // y coordinate just below the widget
+    final y = position.dy + renderBox.size.height;
 
-    showDateTimePickerModal(context, left: x, top: y);
+    showDateTimePickerModal(
+      context,
+      left: x,
+      top: y,
+      dateCaption: widget.dateCaption,
+      timeCaption: widget.timeCaption,
+    );
   }
 
   @override

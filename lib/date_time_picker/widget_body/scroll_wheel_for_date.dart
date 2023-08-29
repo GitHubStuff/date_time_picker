@@ -7,16 +7,19 @@ import 'package:intl/intl.dart';
 
 const double _scaler = 3.4;
 
-class DateWheelSelector extends StatefulWidget {
+class ScrollWheelForDate extends StatefulWidget {
   final Size size;
 
-  const DateWheelSelector({super.key, this.size = const Size(230, 150)});
+  const ScrollWheelForDate({
+    super.key,
+    required this.size,
+  });
 
   @override
-  State<DateWheelSelector> createState() => _DateWheelSelector();
+  State<ScrollWheelForDate> createState() => _DateWheelSelector();
 }
 
-class _DateWheelSelector extends State<DateWheelSelector>
+class _DateWheelSelector extends State<ScrollWheelForDate>
     with StaticTextWheelMixin {
   final yearController = FixedExtentScrollController();
   final monthController = FixedExtentScrollController();

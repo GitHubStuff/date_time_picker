@@ -1,15 +1,25 @@
 import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
-import 'package:date_time_picker/date_time_picker/date_time_header.dart';
-import 'package:date_time_picker/date_time_picker/date_time_toggle.dart';
-import 'package:date_time_picker/date_time_picker/date_wheel_selector.dart';
-import 'package:date_time_picker/date_time_picker/time_wheel_selector.dart';
+import 'package:date_time_picker/date_time_picker/widget_body/date_time_header.dart';
+import 'package:date_time_picker/date_time_picker/widget_body/date_time_selector_tab.dart';
+import 'package:date_time_picker/date_time_picker/widget_body/date_timer_spinner_stack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'picker_styles.dart';
 
 class DateTimePicker extends StatelessWidget {
-  const DateTimePicker({super.key});
+  final Widget dismissWidget;
+  final String dateTimeFormat;
+  final Widget timeCaption;
+  final Widget dateCaption;
+
+  const DateTimePicker({
+    super.key,
+    required this.dismissWidget,
+    required this.dateTimeFormat,
+    required this.dateCaption,
+    required this.timeCaption,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,47 +28,22 @@ class DateTimePicker extends StatelessWidget {
       type: MaterialType.transparency,
       child: BlocProvider(
         create: (context) => DateTimeCubit(),
-        child: const Column(
+        child: Column(
           children: [
             DateTimeHeader(
-              setWidget: Text('🟢'),
+              dateTimeFormat: dateTimeFormat,
+              size: PickerStyles.headerSize,
+              setWidget: dismissWidget,
             ),
-            DateTimeToggle(),
-            ShowDateTimeStack(),
+            DateTimeSelectorTabs(
+              size: PickerStyles.selectorSize,
+              dateCaption: dateCaption,
+              timeCaption: timeCaption,
+            ),
+            const ShowDateTimeStack(),
           ],
         ),
       ),
-    );
-  }
-}
-
-class ShowDateTimeStack extends StatelessWidget {
-  const ShowDateTimeStack({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<DateTimeCubit, DateTimeState>(
-      builder: (context, state) {
-        final showDate = state.showDate;
-        debugPrint('showDate = $showDate');
-        return Stack(
-          children: [
-            IgnorePointer(
-              ignoring: !showDate,
-              child: AnimatedOpacity(
-                  opacity: showDate ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 500),
-                  child: const DateWheelSelector()),
-            ),
-            IgnorePointer(
-              ignoring: showDate,
-              child: AnimatedOpacity(
-                  opacity: showDate ? 0.0 : 1.0,
-                  duration: const Duration(milliseconds: 500),
-                  child: const TimeWheelSelector()),
-            ),
-          ],
-        );
-      },
     );
   }
 }

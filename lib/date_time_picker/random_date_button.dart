@@ -34,19 +34,14 @@ DateTime generateRandomDateTime() {
   final random = Random();
   final currentYear = DateTime.now().year;
 
-  // Randomly decide if we add or subtract years (0: subtract, 1: add)
   final addOrSubtract = random.nextBool() ? 1 : -1;
 
-  // Randomly choose a year between 0 and 5
   final yearDifference = random.nextInt(6) * addOrSubtract;
 
   final targetYear = currentYear + yearDifference;
 
-  // Randomly choose a month between 1 and 12
   final month = random.nextInt(12) + 1;
 
-  // Generate a date within that month. This logic ensures we don't try to generate,
-  // for example, February 30.
   final day = random.nextInt(DateTime(targetYear, month + 1, 0).day) + 1;
 
   final hour = random.nextInt(24);

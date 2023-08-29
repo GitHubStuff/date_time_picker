@@ -11,9 +11,9 @@ class DateTimeHeader extends StatelessWidget {
 
   const DateTimeHeader({
     super.key,
-    this.dateTimeFormat = 'EEE MMM d, y\nh:mm:ss a', // Default format
+    required this.dateTimeFormat,
     required this.setWidget,
-    this.size = const Size(230.0, 56.0),
+    required this.size,
   });
 
   @override

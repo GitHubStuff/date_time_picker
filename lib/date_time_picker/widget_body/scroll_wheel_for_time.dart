@@ -4,21 +4,21 @@ import 'package:date_time_picker/date_time_picker/static_text_wheel_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TimeWheelSelector extends StatefulWidget {
+class ScrollWheelForTime extends StatefulWidget {
   final bool useSeconds;
   final Size size;
 
-  const TimeWheelSelector({
+  const ScrollWheelForTime({
     super.key,
     this.useSeconds = false,
-    this.size = const Size(230, 150),
+    required this.size,
   });
 
   @override
-  State<TimeWheelSelector> createState() => _TimeWheelSelector();
+  State<ScrollWheelForTime> createState() => _TimeWheelSelector();
 }
 
-class _TimeWheelSelector extends State<TimeWheelSelector>
+class _TimeWheelSelector extends State<ScrollWheelForTime>
     with StaticTextWheelMixin {
   final hourController = FixedExtentScrollController();
   final minuteController = FixedExtentScrollController();
