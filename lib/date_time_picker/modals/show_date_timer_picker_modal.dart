@@ -1,5 +1,6 @@
 import 'package:date_time_picker/date_time_picker/date_time_picker.dart';
 import 'package:date_time_picker/date_time_picker/picker_styles.dart';
+import 'package:date_time_picker/date_time_picker/pill_button.dart';
 import 'package:flutter/material.dart';
 
 Future<void> showDateTimePickerModal(
@@ -9,7 +10,7 @@ Future<void> showDateTimePickerModal(
   Size size = PickerStyles.pickerSize,
   Color barrierColor = const Color(0x05000000),
   String dateTimeFormat = 'EEE MMM d, y\nh:mm:ss a',
-  Widget? dismissWidget,
+  Widget? setWidget,
   required Widget dateCaption,
   required Widget timeCaption,
 }) async {
@@ -22,7 +23,8 @@ Future<void> showDateTimePickerModal(
     pageBuilder: (_, __, ___) => DateTimePickerModalContent(
       barrierColor: barrierColor,
       dateTimeFormat: dateTimeFormat,
-      dismissWidget: dismissWidget ?? const Icon(Icons.close),
+      dismissWidget:
+          setWidget ?? const AquaButton(),
       dateCaption: dateCaption,
       timeCaption: timeCaption,
       top: top,
@@ -81,7 +83,7 @@ class DateTimePickerModalContent extends StatelessWidget {
                 child: DateTimePicker(
                   dateCaption: dateCaption,
                   timeCaption: timeCaption,
-                  dismissWidget: dismissWidget,
+                  setDateTimeWidget: dismissWidget,
                   dateTimeFormat: dateTimeFormat,
                 ), // Assuming this is the widget you want to show
               ),

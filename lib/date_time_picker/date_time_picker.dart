@@ -8,22 +8,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'picker_styles.dart';
 
 class DateTimePicker extends StatelessWidget {
-  final Widget dismissWidget;
+  final Widget setDateTimeWidget;
   final String dateTimeFormat;
-  final Widget timeCaption;
-  final Widget dateCaption;
+  final Widget? timeCaption;
+  final Widget? dateCaption;
 
   const DateTimePicker({
     super.key,
-    required this.dismissWidget,
+    required this.setDateTimeWidget,
     required this.dateTimeFormat,
-    required this.dateCaption,
-    required this.timeCaption,
+    this.dateCaption,
+    this.timeCaption,
   });
 
   @override
   Widget build(BuildContext context) {
-    PickerStyles.init();
     return Material(
       type: MaterialType.transparency,
       child: BlocProvider(
@@ -33,12 +32,12 @@ class DateTimePicker extends StatelessWidget {
             DateTimeHeader(
               dateTimeFormat: dateTimeFormat,
               size: PickerStyles.headerSize,
-              setWidget: dismissWidget,
+              setWidget: setDateTimeWidget,
             ),
             DateTimeSelectorTabs(
               size: PickerStyles.selectorSize,
-              dateCaption: dateCaption,
-              timeCaption: timeCaption,
+              dateCaption: dateCaption ?? const SizedBox.shrink(),
+              timeCaption: timeCaption ?? const SizedBox.shrink(),
             ),
             const ShowDateTimeStack(),
           ],

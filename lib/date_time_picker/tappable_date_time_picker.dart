@@ -59,7 +59,7 @@ class _PickerOpenerState extends State<PickerOpener> {
           dateCaption: widget.dateCaption,
           timeCaption: widget.timeCaption,
           dateTimeFormat: widget.dateTimeFormat,
-          dismissWidget: widget.setWidget,
+          setDateTimeWidget: widget.setWidget,
         ),
       ),
     );

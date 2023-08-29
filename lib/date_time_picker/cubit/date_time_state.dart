@@ -1,6 +1,13 @@
 part of 'date_time_cubit.dart';
+
 // ignore: constant_identifier_names
 enum Median { AM, PM }
+
+enum DateTimeType {
+  date,
+  time,
+  both,
+}
 
 class DateTimeState {
   final DateTime dateTime;
@@ -8,6 +15,8 @@ class DateTimeState {
   final int daysInMonth;
   final bool jumpToDateTime;
   final bool showDate;
+  final bool dateTimeSet;
+  final DateTimeType dateTimeType;
 
   DateTimeState(
     this.dateTime,
@@ -15,6 +24,8 @@ class DateTimeState {
     this.daysInMonth, {
     this.jumpToDateTime = false,
     required this.showDate,
+    required this.dateTimeSet,
+    this.dateTimeType = DateTimeType.both,
   });
 
   DateTimeState copyWith({
@@ -23,6 +34,8 @@ class DateTimeState {
     int? daysInMonth,
     bool? jumpToDateTime,
     bool? showDate,
+    bool? dateTimeSet,
+    DateTimeType? dateTimeType,
   }) {
     return DateTimeState(
       dateTime ?? this.dateTime,
@@ -30,6 +43,8 @@ class DateTimeState {
       daysInMonth ?? this.daysInMonth,
       jumpToDateTime: jumpToDateTime ?? this.jumpToDateTime,
       showDate: showDate ?? this.showDate,
+      dateTimeSet: dateTimeSet ?? this.dateTimeSet,
+      dateTimeType: dateTimeType ?? this.dateTimeType,
     );
   }
 }

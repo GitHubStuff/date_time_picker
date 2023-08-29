@@ -17,30 +17,32 @@ class DateTimeSelectorTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<DateTimeCubit>();
     return SizedBox(
       width: size.width,
       height: size.height,
       child: Row(
         children: [
-          Expanded(
-            child: InkWell(
-              onTap: () => context.read<DateTimeCubit>().showPicker(date: true),
-              child: Container(
-                color: PickerStyles().dateColor,
-                child: Center(child: dateCaption),
+          if (cubit.displayDate)
+            Expanded(
+              child: InkWell(
+                onTap: () => cubit.showPicker(date: true),
+                child: Container(
+                  color: PickerStyles().dateColor,
+                  child: Center(child: dateCaption),
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: InkWell(
-              onTap: () =>
-                  context.read<DateTimeCubit>().showPicker(date: false),
-              child: Container(
-                color: PickerStyles().timeColor,
-                child: Center(child: timeCaption),
+          if (cubit.displayTime)
+            Expanded(
+              child: InkWell(
+                onTap: () => cubit.showPicker(date: false),
+                child: Container(
+                  color: PickerStyles().timeColor,
+                  child: Center(child: timeCaption),
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
