@@ -6,7 +6,7 @@ class AquaButton extends StatelessWidget {
 
   const AquaButton({
     Key? key,
-    this.color = Colors.purple,
+    this.color = Colors.red,
     this.mainRadius = 10.0,
   }) : super(key: key);
 

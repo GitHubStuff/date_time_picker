@@ -41,8 +41,8 @@ class _SideModal extends State<SideModal> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    double x = (screenWidth - pickerSize.width) / 2;
-    double y = (screenHeight - pickerSize.height) / 2;
+    double x;
+    double y;
 
     bool foundFit = false;
     for (Side side in widget.sidePriority) {
@@ -86,8 +86,8 @@ class _SideModal extends State<SideModal> {
     if (!foundFit) {
       showDateTimePickerModal(
         context,
-        left: x,
-        top: y,
+        left: (screenWidth - pickerSize.width) / 2,
+        top: (screenHeight - pickerSize.height) / 2,
         dateCaption: widget.dateCaption,
         timeCaption: widget.timeCaption,
       );

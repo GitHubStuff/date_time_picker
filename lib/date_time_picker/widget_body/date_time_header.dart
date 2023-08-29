@@ -1,6 +1,5 @@
 import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
 import 'package:date_time_picker/date_time_picker/picker_styles.dart';
-import 'package:date_time_picker/date_time_picker/pill_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -43,19 +42,11 @@ class DateTimeHeader extends StatelessWidget {
                   ),
                 ),
               ),
-              const Align(
+              Align(
                 alignment: Alignment.centerRight,
                 child: Padding(
-                  padding: EdgeInsets.only(right: 4.0),
-                  child: AquaButton(),
-                  // child: SizedBox(
-                  //   width: size.height * 0.721,
-                  //   height: size.height * 0.721,
-                  //   child: FittedBox(
-                  //     fit: BoxFit.fill,
-                  //     child: setWidget,
-                  //   ),
-                  // ),
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: setWidget,
                 ),
               ),
             ],
