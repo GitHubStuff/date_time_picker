@@ -5,9 +5,8 @@ class AquaButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double mainRadius = 15;
+    double mainRadius = 10;
     double northPoleRadius = mainRadius * 0.85; // Slightly increasing the size
-    double southPoleRadius = mainRadius * 0.55;
 
     return Container(
       width: mainRadius * 2,
@@ -17,10 +16,10 @@ class AquaButton extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
+            Colors.red,
             Colors.red[900]!,
-            Colors.red[800]!,
             Colors.red[700]!,
-            Colors.red[400]!,
+            Colors.red[500]!,
           ],
         ),
         shape: BoxShape.circle,
@@ -47,24 +46,12 @@ class AquaButton extends StatelessWidget {
             ),
           ),
           // South pole
-          Positioned(
-            left: mainRadius - southPoleRadius,
-            bottom: -southPoleRadius, // + (0.2 * southPoleRadius),
-            child: Container(
-              width: southPoleRadius * 2.5, // Increase width for dispersal
-              height: southPoleRadius,
-              decoration: BoxDecoration(
-                gradient: RadialGradient(
-                  center: const Alignment(0, 0.5),
-                  focal: const Alignment(0, 0.5), // Aligning focal with center
-                  colors: [
-                    Colors.green.withOpacity(1.0),
-                    Colors.transparent,
-                  ],
-                  stops: const [0, 1.0],
-                  focalRadius: 0.2, // Focal radius for elliptical dispersion
-                ),
-                shape: BoxShape.circle,
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: ClipOval(
+              child: CustomPaint(
+                size: Size(mainRadius * 2, mainRadius * 2),
+                painter: _TrianglePainter(),
               ),
             ),
           ),
@@ -72,4 +59,41 @@ class AquaButton extends StatelessWidget {
       ),
     );
   }
+}
+
+class _TrianglePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    double triangleHeight = size.height / 2.5; // Height of the triangle
+    double triangleBase = size.width * 1.0; // Base of the triangle
+
+    Path path = Path()
+      ..moveTo(size.width / 2, size.height - triangleHeight)
+      ..lineTo(0, size.height)
+      ..lineTo(triangleBase, size.height)
+      ..close();
+
+    // Gradient for the triangle
+    final gradient = LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        Colors.white.withOpacity(0.1),
+        Colors.white.withOpacity(0.3),
+      ],
+    );
+
+    final paint = Paint()
+      ..shader = gradient.createShader(
+        Rect.fromPoints(
+          Offset(0, size.height - triangleHeight),
+          Offset(triangleBase, size.height),
+        ),
+      );
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
