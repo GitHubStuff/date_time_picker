@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:date_time_picker/date_time_picker/aqua_button.dart';
+import 'package:date_time_picker/date_time_picker/cubit/date_time_broadcast.dart';
 import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
+import 'package:date_time_picker/date_time_picker/integration/date_time_display.dart';
 import 'package:date_time_picker/date_time_picker/picker_styles.dart';
 import 'package:date_time_picker/date_time_picker/modals/show_date_timer_picker_modal.dart';
 import 'package:date_time_picker/date_time_picker/modals/positioned_date_time_modal.dart';
@@ -17,6 +21,7 @@ class HomeScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Test();
     return Scaffold(
       body: homeWidget(context),
       floatingActionButton: null,
@@ -24,32 +29,22 @@ class HomeScaffold extends StatelessWidget {
   }
 
   Widget homeWidget(BuildContext context) {
-    // PickerStyles.init(
-    //   dateColor: Colors.blue,
-    //   timeColor: Colors.purple,
-    //   headerColor: Colors.blueGrey,
-    //   headerStyle: _headerStyle,
-    //   textStyle: _textStyle,
-    // );
-    // PickerStyles.init(
-    //   dateColor: Colors.red,
-    //   timeColor: Colors.green,
-    //   headerColor: Colors.blue,
-    //   headerStyle: _headerStyle,
-    //   textStyle: _textStyle,
-    // );
     PickerStyles.init();
-    final DateTimeCubit dateTimeCubit1 = DateTimeCubit(DateTimeType.date);
-    final DateTimeCubit dateTimeCubit2 = DateTimeCubit(DateTimeType.date);
+    final StreamController<DateTimeBroadcast> messageController =
+        StreamController<DateTimeBroadcast>.broadcast();
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Test(),
         ElevatedButton(
             onPressed: () async {
               await showDateTimePickerModal(
                 context,
-                dateTimeCubit: dateTimeCubit1,
+                dateTimeCubit: DateTimeCubit(
+                  tag: 5,
+                  messageController: messageController,
+                ),
                 barrierColor: const Color(0x0f000000),
                 dateTimeFormat: _dateTimeFormat,
                 setWidget: const Text('Set', style: _textStyle),
@@ -69,7 +64,7 @@ class HomeScaffold extends StatelessWidget {
               Sides.top,
               Sides.bottom
             ],
-            dateTimeCubit: dateTimeCubit2,
+            dateTimeCubit: DateTimeCubit(tag: 11),
             setWidget: const AquaButton(),
             dateCaption: _dateCaption,
             timeCaption: _timeCaption,

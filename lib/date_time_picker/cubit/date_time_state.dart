@@ -15,7 +15,6 @@ class DateTimeState {
   final int daysInMonth;
   final bool jumpToDateTime;
   final bool showDate;
-  final bool dateTimeSet;
   final DateTimeType dateTimeType;
 
   DateTimeState(
@@ -24,7 +23,6 @@ class DateTimeState {
     this.daysInMonth, {
     this.jumpToDateTime = false,
     required this.showDate,
-    required this.dateTimeSet,
     required this.dateTimeType,
   });
 
@@ -34,7 +32,6 @@ class DateTimeState {
     int? daysInMonth,
     bool? jumpToDateTime,
     bool? showDate,
-    bool? dateTimeSet,
     DateTimeType? dateTimeType,
   }) {
     return DateTimeState(
@@ -43,7 +40,6 @@ class DateTimeState {
       daysInMonth ?? this.daysInMonth,
       jumpToDateTime: jumpToDateTime ?? this.jumpToDateTime,
       showDate: showDate ?? this.showDate,
-      dateTimeSet: dateTimeSet ?? this.dateTimeSet,
       dateTimeType: dateTimeType ?? this.dateTimeType,
     );
   }

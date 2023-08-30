@@ -48,7 +48,7 @@ class DateTimeHeader extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 8.0),
                   child: GestureDetector(
                       onTap: () {
-                        context.read<DateTimeCubit>().setDateTime();
+                        context.read<DateTimeCubit>().setDateTime(true);
                         Navigator.pop(context);
                       },
                       child: setWidget),
