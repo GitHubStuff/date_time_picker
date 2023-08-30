@@ -1,6 +1,5 @@
 import 'package:date_time_picker/date_time_picker/date_time_picker.dart';
 import 'package:date_time_picker/date_time_picker/picker_styles.dart';
-import 'package:date_time_picker/date_time_picker/aqua_button.dart';
 import 'package:flutter/material.dart';
 
 Future<void> showDateTimePickerModal(
@@ -8,9 +7,9 @@ Future<void> showDateTimePickerModal(
   double? top,
   double? left,
   Size size = PickerStyles.pickerSize,
-  Color barrierColor = const Color(0x0f000000),
-  String dateTimeFormat = 'EEE MMM d, y\nh:mm:ss a',
-  Widget? setWidget,
+  required Color barrierColor,
+  required String dateTimeFormat,
+  required Widget setWidget,
   required Widget dateCaption,
   required Widget timeCaption,
 }) async {
@@ -23,7 +22,7 @@ Future<void> showDateTimePickerModal(
     pageBuilder: (_, __, ___) => DateTimePickerModalContent(
       barrierColor: barrierColor,
       dateTimeFormat: dateTimeFormat,
-      dismissWidget: setWidget ?? const AquaButton(),
+      setWidget: setWidget,
       dateCaption: dateCaption,
       timeCaption: timeCaption,
       top: top,
@@ -39,7 +38,7 @@ class DateTimePickerModalContent extends StatelessWidget {
   final Size size;
   final Color barrierColor;
   final String dateTimeFormat;
-  final Widget dismissWidget;
+  final Widget setWidget;
   final Widget dateCaption;
   final Widget timeCaption;
 
@@ -48,7 +47,7 @@ class DateTimePickerModalContent extends StatelessWidget {
     required this.size,
     required this.barrierColor,
     required this.dateTimeFormat,
-    required this.dismissWidget,
+    required this.setWidget,
     required this.dateCaption,
     required this.timeCaption,
     this.top,
@@ -88,7 +87,7 @@ class DateTimePickerModalContent extends StatelessWidget {
               child: DateTimePicker(
                 dateCaption: dateCaption,
                 timeCaption: timeCaption,
-                setDateTimeWidget: dismissWidget,
+                setDateTimeWidget: setWidget,
                 dateTimeFormat: dateTimeFormat,
               ),
             ),
