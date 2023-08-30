@@ -1,4 +1,5 @@
 import 'package:date_time_picker/date_time_picker/aqua_button.dart';
+import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
 import 'package:date_time_picker/date_time_picker/picker_styles.dart';
 import 'package:date_time_picker/date_time_picker/modals/show_date_timer_picker_modal.dart';
 import 'package:date_time_picker/date_time_picker/modals/positioned_date_time_modal.dart';
@@ -38,7 +39,8 @@ class HomeScaffold extends StatelessWidget {
     //   textStyle: _textStyle,
     // );
     PickerStyles.init();
-
+    final DateTimeCubit dateTimeCubit1 = DateTimeCubit(DateTimeType.date);
+    final DateTimeCubit dateTimeCubit2 = DateTimeCubit(DateTimeType.date);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,6 +49,7 @@ class HomeScaffold extends StatelessWidget {
             onPressed: () async {
               await showDateTimePickerModal(
                 context,
+                dateTimeCubit: dateTimeCubit1,
                 barrierColor: const Color(0x0f000000),
                 dateTimeFormat: _dateTimeFormat,
                 setWidget: const Text('Set', style: _textStyle),
@@ -66,6 +69,7 @@ class HomeScaffold extends StatelessWidget {
               Sides.top,
               Sides.bottom
             ],
+            dateTimeCubit: dateTimeCubit2,
             setWidget: const AquaButton(),
             dateCaption: _dateCaption,
             timeCaption: _timeCaption,

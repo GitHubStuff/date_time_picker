@@ -46,7 +46,12 @@ class DateTimeHeader extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
-                  child: setWidget,
+                  child: GestureDetector(
+                      onTap: () {
+                        context.read<DateTimeCubit>().setDateTime();
+                        Navigator.pop(context);
+                      },
+                      child: setWidget),
                 ),
               ),
             ],

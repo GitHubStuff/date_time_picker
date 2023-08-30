@@ -1,3 +1,4 @@
+import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
 import 'package:date_time_picker/date_time_picker/modals/show_date_timer_picker_modal.dart';
 import 'package:flutter/material.dart';
 
@@ -20,17 +21,19 @@ class PositionedDateTimeModal extends StatefulWidget {
   final Size pickerSize;
   final String dateTimeFormat;
   final Widget child;
-  final Widget dateCaption;
+  final Widget? dateCaption;
   final Widget setWidget;
-  final Widget timeCaption;
+  final Widget? timeCaption;
+  final DateTimeCubit dateTimeCubit;
 
   const PositionedDateTimeModal({
     super.key,
     required this.child,
-    required this.dateCaption,
+    this.dateCaption,
     required this.pickerSize,
     required this.setWidget,
-    required this.timeCaption,
+    required this.dateTimeCubit,
+    this.timeCaption,
     this.barrierColor = const Color(0x1f000000),
     this.dateTimeFormat = 'EEE MMM d, y\nh:mm:ss a',
     this.overrideXPos,
@@ -56,6 +59,7 @@ class _SideModal extends State<PositionedDateTimeModal> {
     if (widget.overrideXPos != null && widget.overrideYPos != null) {
       showDateTimePickerModal(
         context,
+        dateTimeCubit: widget.dateTimeCubit,
         barrierColor: widget.barrierColor,
         dateTimeFormat: widget.dateTimeFormat,
         setWidget: widget.setWidget,
@@ -127,6 +131,7 @@ class _SideModal extends State<PositionedDateTimeModal> {
       if (foundFit) {
         showDateTimePickerModal(
           context,
+          dateTimeCubit: widget.dateTimeCubit,
           barrierColor: widget.barrierColor,
           dateTimeFormat: widget.dateTimeFormat,
           setWidget: widget.setWidget,
@@ -141,6 +146,7 @@ class _SideModal extends State<PositionedDateTimeModal> {
     if (!foundFit) {
       showDateTimePickerModal(
         context,
+        dateTimeCubit: widget.dateTimeCubit,
         barrierColor: widget.barrierColor,
         setWidget: widget.setWidget,
         dateTimeFormat: widget.dateTimeFormat,

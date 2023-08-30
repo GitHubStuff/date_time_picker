@@ -25,7 +25,7 @@ class DateTimeState {
     this.jumpToDateTime = false,
     required this.showDate,
     required this.dateTimeSet,
-    this.dateTimeType = DateTimeType.both,
+    required this.dateTimeType,
   });
 
   DateTimeState copyWith({

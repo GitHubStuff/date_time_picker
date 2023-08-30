@@ -1,18 +1,18 @@
-import 'package:date_time_picker/date_time_picker/date_time_picker.dart';
+import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
+import 'package:date_time_picker/date_time_picker/date_time_picker_widget.dart';
 import 'package:date_time_picker/date_time_picker/picker_styles.dart';
 import 'package:flutter/material.dart';
 
-Future<void> showDateTimePickerModal(
-  BuildContext context, {
-  double? top,
-  double? left,
-  Size size = PickerStyles.pickerSize,
-  required Color barrierColor,
-  required String dateTimeFormat,
-  required Widget setWidget,
-  required Widget dateCaption,
-  required Widget timeCaption,
-}) async {
+Future<void> showDateTimePickerModal(BuildContext context,
+    {double? top,
+    double? left,
+    Size size = PickerStyles.pickerSize,
+    required Color barrierColor,
+    required String dateTimeFormat,
+    required Widget setWidget,
+    Widget? dateCaption,
+    Widget? timeCaption,
+    required DateTimeCubit dateTimeCubit}) async {
   await showGeneralDialog(
     context: context,
     barrierLabel: "Modal",
@@ -21,6 +21,7 @@ Future<void> showDateTimePickerModal(
     transitionDuration: const Duration(milliseconds: 300),
     pageBuilder: (_, __, ___) => DateTimePickerModalContent(
       barrierColor: barrierColor,
+      dateTimeCubit: dateTimeCubit,
       dateTimeFormat: dateTimeFormat,
       setWidget: setWidget,
       dateCaption: dateCaption,
@@ -39,8 +40,9 @@ class DateTimePickerModalContent extends StatelessWidget {
   final Color barrierColor;
   final String dateTimeFormat;
   final Widget setWidget;
-  final Widget dateCaption;
-  final Widget timeCaption;
+  final Widget? dateCaption;
+  final Widget? timeCaption;
+  final DateTimeCubit dateTimeCubit;
 
   const DateTimePickerModalContent({
     super.key,
@@ -48,8 +50,9 @@ class DateTimePickerModalContent extends StatelessWidget {
     required this.barrierColor,
     required this.dateTimeFormat,
     required this.setWidget,
-    required this.dateCaption,
-    required this.timeCaption,
+    required this.dateTimeCubit,
+    this.dateCaption,
+    this.timeCaption,
     this.top,
     this.left,
   });
@@ -84,7 +87,8 @@ class DateTimePickerModalContent extends StatelessWidget {
               width: size.width,
               height: size.height,
               color: Colors.transparent,
-              child: DateTimePicker(
+              child: DateTimePickerWidget(
+                dateTimeCubit: dateTimeCubit,
                 dateCaption: dateCaption,
                 timeCaption: timeCaption,
                 setDateTimeWidget: setWidget,

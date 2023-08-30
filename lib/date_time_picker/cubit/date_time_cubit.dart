@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'date_time_state.dart';
 
 class DateTimeCubit extends Cubit<DateTimeState> {
-  DateTimeCubit()
+  DateTimeCubit(DateTimeType dateTimeType)
       : super(DateTimeState(
             DateTime.now(),
             DateTime.now().hour >= 12 ? Median.PM : Median.AM,
             _daysInMonth(DateTime.now().month, DateTime.now().year),
             jumpToDateTime: true,
             showDate: true,
+            dateTimeType: dateTimeType,
             dateTimeSet: false));
 
   static int _daysInMonth(int month, int year) {
@@ -28,24 +29,36 @@ class DateTimeCubit extends Cubit<DateTimeState> {
       state.dateTimeType == DateTimeType.time ||
       state.dateTimeType == DateTimeType.both;
 
+  void setDateTime() {
+    final DateTime setTime = DateTime(
+      state.dateTime.year,
+      state.dateTime.month,
+      state.dateTime.day,
+      (displayTime) ? state.dateTime.hour : 0,
+      (displayTime) ? state.dateTime.minute : 0,
+      (displayTime) ? state.dateTime.second : 0,
+    );
+    emit(state.copyWith(dateTime: setTime, dateTimeSet: true));
+  }
+
   void showPicker({required bool date}) => emit(state.copyWith(showDate: date));
 
-  void updateYear(int year) => updateDateTime(year: year);
+  void updateYear(int year) => _updateDateTime(year: year);
 
-  void updateMonth(int month) => updateDateTime(month: month + 1);
+  void updateMonth(int month) => _updateDateTime(month: month + 1);
 
-  void updateDay(int day) => updateDateTime(day: day);
+  void updateDay(int day) => _updateDateTime(day: day);
 
   void updateHour(int hour) {
     if (state.median == Median.PM && hour != 12) hour += 12;
     if (state.median == Median.AM && hour == 12) hour = 0;
 
-    updateDateTime(hour: hour);
+    _updateDateTime(hour: hour);
   }
 
-  void updateMinute(int minute) => updateDateTime(minute: minute);
+  void updateMinute(int minute) => _updateDateTime(minute: minute);
 
-  void updateSecond(int second) => updateDateTime(second: second);
+  void updateSecond(int second) => _updateDateTime(second: second);
 
   void updateMedian(Median median) {
     int hour = state.dateTime.hour;
@@ -53,10 +66,10 @@ class DateTimeCubit extends Cubit<DateTimeState> {
     if (median == Median.AM && hour >= 12) hour -= 12;
     if (median == Median.PM && hour < 12) hour += 12;
 
-    updateDateTime(hour: hour);
+    _updateDateTime(hour: hour);
   }
 
-  void updateDateTime({
+  void _updateDateTime({
     int? year,
     int? month,
     int? day,
@@ -65,10 +78,19 @@ class DateTimeCubit extends Cubit<DateTimeState> {
     int? second,
     bool? showDate,
   }) {
+    // Calculate days in the specified month
+    int daysInSpecifiedMonth = _daysInMonth(
+        month ?? state.dateTime.month, year ?? state.dateTime.year);
+
+    // Adjust day if it's greater than the days in the specified month
+    day = day ?? state.dateTime.day;
+    if (day > daysInSpecifiedMonth) {
+      day = daysInSpecifiedMonth;
+    }
     DateTime newDateTime = state.dateTime.copyWith(
       year: year ?? state.dateTime.year,
       month: month ?? state.dateTime.month,
-      day: day ?? state.dateTime.day,
+      day: day,
       hour: hour ?? state.dateTime.hour,
       minute: minute ?? state.dateTime.minute,
       second: second ?? state.dateTime.second,
@@ -81,6 +103,7 @@ class DateTimeCubit extends Cubit<DateTimeState> {
       _daysInMonth(newDateTime.month, newDateTime.year),
       showDate: showDate ?? state.showDate,
       dateTimeSet: state.dateTimeSet,
+      dateTimeType: state.dateTimeType,
     ));
   }
 }
