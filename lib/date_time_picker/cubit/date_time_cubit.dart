@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:date_time_picker/date_time_picker/cubit/date_time_broadcast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,16 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'date_time_state.dart';
 
 class DateTimeCubit extends Cubit<DateTimeState> {
-  late final StreamController<DateTimeBroadcast>? _messageController;
-  final int tag;
+  final Object? broadcastId;
 
   DateTimeCubit({
-    required this.tag,
+    this.broadcastId,
     DateTime? initialDateTime,
     required DateTimeType dateTimeType,
-    required StreamController<DateTimeBroadcast>? dateTimeBroadcast,
-  })  : _messageController = dateTimeBroadcast,
-        super(_initialState(dateTimeType, initialDateTime));
+  }) : super(_initialState(dateTimeType, initialDateTime));
 
   static DateTimeState _initialState(
       DateTimeType dateTimeType, DateTime? initialDateTime) {
@@ -60,10 +56,10 @@ class DateTimeCubit extends Cubit<DateTimeState> {
       displayTime ? state.dateTime.second : 0,
     );
     emit(state.copyWith(dateTime: setTime));
-    _messageController?.add(DateTimeBroadcast(
+    DateTimeBroadcastManager.broadcast(
       dateTimeSet ? setTime : null,
-      tag,
-    ));
+      broadcastId,
+    );
   }
 
   void updateYear(int year) => _updateDateTime(year: year);

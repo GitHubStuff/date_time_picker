@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DateTimeDisplay extends StatefulWidget {
-  final Stream<DateTimeBroadcast> dateTimeStream;
-
-  const DateTimeDisplay({super.key, required this.dateTimeStream});
+  const DateTimeDisplay({super.key});
 
   @override
   State<DateTimeDisplay> createState() => _DateTimeDisplayState();
@@ -16,7 +14,7 @@ class DateTimeDisplay extends StatefulWidget {
 
 class _DateTimeDisplayState extends State<DateTimeDisplay> {
   DateTime? _currentDateTime;
-  int? _id;
+  Object? _id;
   late StreamSubscription<DateTimeBroadcast> _subscription;
 
   @override
@@ -24,7 +22,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> {
     super.initState();
 
     // Subscribe to the stream
-    _subscription = widget.dateTimeStream.listen((broadcast) {
+    _subscription = DateTimeBroadcastManager.listen((broadcast) {
       setState(() {
         _currentDateTime = broadcast.dateTime;
         _id = broadcast.tag;
@@ -44,8 +42,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> {
 
   @override
   void dispose() {
-    _subscription
-        .cancel(); // Always remember to cancel stream subscriptions to prevent memory leaks
+    _subscription.cancel();
     super.dispose();
   }
 }
@@ -59,10 +56,8 @@ class Test extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DateTimeCubit(
-          dateTimeBroadcast: _messageController,
-          tag: 1,
-          dateTimeType: DateTimeType.both),
+      create: (context) =>
+          DateTimeCubit(broadcastId: 23.4, dateTimeType: DateTimeType.both),
       child: Scaffold(
         appBar: AppBar(title: const Text("DateTime Stream Test")),
         body: Builder(builder: (context) {

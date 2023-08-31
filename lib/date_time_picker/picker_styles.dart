@@ -6,6 +6,11 @@ class PickerStyles {
   static const Size headerSize = Size(230.0, 56.0);
   static const Size selectorSize = Size(230.0, 49.0);
   static const Size spinnerSize = Size(230.0, 150.0);
+  static const String dateTimeFormat = 'EEE MMM d, y\nh:mm:ss a';
+  static const String dateFormat = 'EEE MMM d, y';
+  static const String timeFormat = 'h:mm:ss a';
+  static const Color barrierColor = Color(0x1f000000);
+
   // Singleton boilerplate
   static final PickerStyles _instance = PickerStyles._internal();
 

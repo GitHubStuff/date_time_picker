@@ -1,6 +1,6 @@
 import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
 import 'package:date_time_picker/date_time_picker/picker_styles.dart';
-import 'package:date_time_picker/date_time_picker/static_text_wheel_mixin.dart';
+import 'package:date_time_picker/date_time_picker/widget_body/static_text_wheel_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

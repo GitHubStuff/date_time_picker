@@ -9,7 +9,7 @@ import 'picker_styles.dart';
 
 class DateTimePickerWidget extends StatelessWidget {
   final Widget setDateTimeWidget;
-  final String dateTimeFormat;
+  final String? dateTimeFormat;
   final Widget? timeCaption;
   final Widget? dateCaption;
   final DateTimeCubit dateTimeCubit;
@@ -17,7 +17,7 @@ class DateTimePickerWidget extends StatelessWidget {
   const DateTimePickerWidget({
     super.key,
     required this.setDateTimeWidget,
-    required this.dateTimeFormat,
+    this.dateTimeFormat,
     required this.dateTimeCubit,
     this.dateCaption,
     this.timeCaption,
@@ -27,22 +27,34 @@ class DateTimePickerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     assert(dateCaption != null || timeCaption != null,
         'dateCaption and timeCaption cannot be null');
+    String? dateFormat = dateTimeFormat;
+    if (dateFormat == null && dateCaption != null) {
+      dateFormat = PickerStyles.dateFormat;
+    } else if (dateFormat == null && timeCaption != null) {
+      dateFormat = PickerStyles.timeFormat;
+    }
+    dateFormat ??= PickerStyles.dateTimeFormat;
     return Material(
       type: MaterialType.transparency,
       child: BlocProvider(
         create: (context) => dateTimeCubit,
         child: Column(
           children: [
+            /// Displays the header with the date/time and the set button
             DateTimeHeader(
-              dateTimeFormat: dateTimeFormat,
+              dateTimeFormat: dateFormat,
               size: PickerStyles.headerSize,
               setWidget: setDateTimeWidget,
             ),
+
+            /// Displays the date and time selector tabs with captions for each
             DateTimeSelectorTabs(
               size: PickerStyles.selectorSize,
               dateCaption: dateCaption ?? const SizedBox.shrink(),
               timeCaption: timeCaption ?? const SizedBox.shrink(),
             ),
+
+            /// Displays the date and time spinners
             const ShowDateTimeStack(),
           ],
         ),
