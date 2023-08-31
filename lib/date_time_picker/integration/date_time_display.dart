@@ -58,7 +58,7 @@ class Test extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          DateTimeCubit(messageController: _messageController, tag: 1),
+          DateTimeCubit(messageController: _messageController, tag: 1, dateTimeType: DateTimeType.both),
       child: Scaffold(
         appBar: AppBar(title: const Text("DateTime Stream Test")),
         body: Builder(builder: (context) {

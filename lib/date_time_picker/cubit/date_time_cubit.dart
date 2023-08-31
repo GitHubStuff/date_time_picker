@@ -10,20 +10,24 @@ class DateTimeCubit extends Cubit<DateTimeState> {
   final int tag;
 
   DateTimeCubit({
-    DateTimeType dateTimeType = DateTimeType.both,
-    StreamController<DateTimeBroadcast>? messageController,
     required this.tag,
+    DateTime? initialDateTime,
+    required DateTimeType dateTimeType,
+    StreamController<DateTimeBroadcast>? messageController,
   })  : _messageController = messageController,
-        super(_initialState(dateTimeType));
+        super(_initialState(dateTimeType, initialDateTime));
 
-  static DateTimeState _initialState(DateTimeType dateTimeType) {
-    final now = DateTime.now();
+  static DateTimeState _initialState(
+      DateTimeType dateTimeType, DateTime? initialDateTime) {
+    final now = initialDateTime ?? DateTime.now();
     return DateTimeState(
       now,
       now.hour >= 12 ? Median.PM : Median.AM,
       _daysInMonth(now.month, now.year),
-      showDate: true,
+      showDate: dateTimeType == DateTimeType.date ||
+          dateTimeType == DateTimeType.both,
       dateTimeType: dateTimeType,
+      jumpToDateTime: true,
     );
   }
 

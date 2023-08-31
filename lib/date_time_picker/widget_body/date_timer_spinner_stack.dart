@@ -12,10 +12,7 @@ class ShowDateTimeStack extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DateTimeCubit, DateTimeState>(
       builder: (context, state) {
-        final showDate =
-            state.showDate && context.read<DateTimeCubit>().displayDate;
-        final showTime =
-            !state.showDate && context.read<DateTimeCubit>().displayTime;
+        final showDate = state.showDate;
         return Stack(
           children: [
             if (context.read<DateTimeCubit>().displayDate)
@@ -30,21 +27,14 @@ class ShowDateTimeStack extends StatelessWidget {
               ),
             if (context.read<DateTimeCubit>().displayTime)
               IgnorePointer(
-                ignoring: !showTime,
+                ignoring: showDate,
                 child: AnimatedOpacity(
-                    opacity: showDate ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 500),
-                    child: const ScrollWheelForDate(
-                        size: PickerStyles.spinnerSize)),
-              ),
-            IgnorePointer(
-              ignoring: showDate,
-              child: AnimatedOpacity(
                   opacity: showDate ? 0.0 : 1.0,
                   duration: const Duration(milliseconds: 500),
                   child:
-                      const ScrollWheelForTime(size: PickerStyles.spinnerSize)),
-            ),
+                      const ScrollWheelForTime(size: PickerStyles.spinnerSize),
+                ),
+              ),
           ],
         );
       },

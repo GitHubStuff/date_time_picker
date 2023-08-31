@@ -5,16 +5,18 @@ import 'package:date_time_picker/date_time_picker/date_time_picker_widget.dart';
 import 'package:date_time_picker/date_time_picker/picker_styles.dart';
 import 'package:flutter/material.dart';
 
-Future<DateTime?> showDateTimePickerModal(BuildContext context,
-    {double? top,
-    double? left,
-    Size size = PickerStyles.pickerSize,
-    required Color barrierColor,
-    required String dateTimeFormat,
-    required Widget setWidget,
-    Widget? dateCaption,
-    Widget? timeCaption,
-    required DateTimeCubit dateTimeCubit}) async {
+Future<DateTime?> showDateTimePickerModal(
+  BuildContext context, {
+  double? top,
+  double? left,
+  Size size = PickerStyles.pickerSize,
+  required Color barrierColor,
+  required String dateTimeFormat,
+  required Widget setWidget,
+  Widget? dateCaption,
+  Widget? timeCaption,
+  required DateTimeCubit dateTimeCubit,
+}) async {
   DateTime? result = await showGeneralDialog(
     context: context,
     barrierLabel: "Modal",
@@ -73,7 +75,7 @@ class DateTimePickerModalContent extends StatelessWidget {
       children: [
         /// Makes the modal dismissable by tapping the barrier
         GestureDetector(
-          onTap: () => Navigator.pop(context, null),
+          onTap: () => Navigator.of(context).pop(null),
           behavior: HitTestBehavior.translucent,
           child: Container(
             color: barrierColor,

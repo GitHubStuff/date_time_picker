@@ -53,13 +53,17 @@ class PositionedDateTimeModal extends StatefulWidget {
 }
 
 class _SideModal extends State<PositionedDateTimeModal> {
+  final dateTimeCubit = DateTimeCubit(
+    tag: 11,
+    dateTimeType: DateTimeType.time,
+  );
   final GlobalKey _key = GlobalKey();
 
-  void _showPicker(Size pickerSize) {
+  void _showPicker(Size pickerSize) async {
     if (widget.overrideXPos != null && widget.overrideYPos != null) {
-      showDateTimePickerModal(
+      final t = await showDateTimePickerModal(
         context,
-        dateTimeCubit: widget.dateTimeCubit,
+        dateTimeCubit: dateTimeCubit,
         barrierColor: widget.barrierColor,
         dateTimeFormat: widget.dateTimeFormat,
         setWidget: widget.setWidget,
@@ -68,6 +72,7 @@ class _SideModal extends State<PositionedDateTimeModal> {
         dateCaption: widget.dateCaption,
         timeCaption: widget.timeCaption,
       );
+      debugPrint('_showPicker t: $t');
       return;
     }
 
@@ -129,9 +134,9 @@ class _SideModal extends State<PositionedDateTimeModal> {
           break;
       }
       if (foundFit) {
-        showDateTimePickerModal(
+        final k = await showDateTimePickerModal(
           context,
-          dateTimeCubit: widget.dateTimeCubit,
+          dateTimeCubit: dateTimeCubit,
           barrierColor: widget.barrierColor,
           dateTimeFormat: widget.dateTimeFormat,
           setWidget: widget.setWidget,
@@ -140,13 +145,14 @@ class _SideModal extends State<PositionedDateTimeModal> {
           dateCaption: widget.dateCaption,
           timeCaption: widget.timeCaption,
         );
+        debugPrint('_showPicker k: $k');
         return;
       }
     }
     if (!foundFit) {
-      showDateTimePickerModal(
+      final m = await showDateTimePickerModal(
         context,
-        dateTimeCubit: widget.dateTimeCubit,
+        dateTimeCubit: dateTimeCubit,
         barrierColor: widget.barrierColor,
         setWidget: widget.setWidget,
         dateTimeFormat: widget.dateTimeFormat,
@@ -155,6 +161,7 @@ class _SideModal extends State<PositionedDateTimeModal> {
         dateCaption: widget.dateCaption,
         timeCaption: widget.timeCaption,
       );
+      debugPrint('_showPicker m: $m');
     }
   }
 

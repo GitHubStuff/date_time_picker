@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:date_time_picker/date_time_picker/aqua_button.dart';
 import 'package:date_time_picker/date_time_picker/cubit/date_time_broadcast.dart';
 import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
-import 'package:date_time_picker/date_time_picker/integration/date_time_display.dart';
 import 'package:date_time_picker/date_time_picker/picker_styles.dart';
 import 'package:date_time_picker/date_time_picker/modals/show_date_timer_picker_modal.dart';
 import 'package:date_time_picker/date_time_picker/modals/positioned_date_time_modal.dart';
@@ -21,7 +20,7 @@ class HomeScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Test();
+    //return Test();
     return Scaffold(
       body: homeWidget(context),
       floatingActionButton: null,
@@ -32,16 +31,19 @@ class HomeScaffold extends StatelessWidget {
     PickerStyles.init();
     final StreamController<DateTimeBroadcast> messageController =
         StreamController<DateTimeBroadcast>.broadcast();
+    final DateTimeCubit dateTimeCubit =
+        DateTimeCubit(tag: 11, dateTimeType: DateTimeType.time);
+        
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Test(),
         ElevatedButton(
             onPressed: () async {
-              await showDateTimePickerModal(
+              final t = await showDateTimePickerModal(
                 context,
                 dateTimeCubit: DateTimeCubit(
+                  dateTimeType: DateTimeType.date,
                   tag: 5,
                   messageController: messageController,
                 ),
@@ -51,6 +53,7 @@ class HomeScaffold extends StatelessWidget {
                 dateCaption: _dateCaption,
                 timeCaption: _timeCaption,
               );
+              debugPrint('T:$t');
             },
             child: const Text('Show Picker')),
         Padding(
@@ -64,7 +67,7 @@ class HomeScaffold extends StatelessWidget {
               Sides.top,
               Sides.bottom
             ],
-            dateTimeCubit: DateTimeCubit(tag: 11),
+            dateTimeCubit: dateTimeCubit,
             setWidget: const AquaButton(),
             dateCaption: _dateCaption,
             timeCaption: _timeCaption,
