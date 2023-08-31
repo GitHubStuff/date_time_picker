@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:date_time_picker/date_time_picker/aqua_button.dart';
 import 'package:date_time_picker/date_time_picker/cubit/date_time_broadcast.dart';
 import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
+import 'package:date_time_picker/date_time_picker/integration/date_time_display.dart';
 import 'package:date_time_picker/date_time_picker/picker_styles.dart';
 import 'package:date_time_picker/date_time_picker/modals/show_date_timer_picker_modal.dart';
 import 'package:date_time_picker/date_time_picker/modals/positioned_date_time_modal.dart';
@@ -14,6 +15,9 @@ const TextStyle _textStyle = TextStyle(
 
 Widget get _dateCaption => const Text('Date', style: _textStyle);
 Widget get _timeCaption => const Text('Time', style: _textStyle);
+
+final StreamController<DateTimeBroadcast> messageController =
+    StreamController<DateTimeBroadcast>.broadcast();
 
 class HomeScaffold extends StatelessWidget {
   const HomeScaffold({super.key});
@@ -29,29 +33,28 @@ class HomeScaffold extends StatelessWidget {
 
   Widget homeWidget(BuildContext context) {
     PickerStyles.init();
-    final StreamController<DateTimeBroadcast> messageController =
-        StreamController<DateTimeBroadcast>.broadcast();
-    final DateTimeCubit dateTimeCubit =
-        DateTimeCubit(tag: 11, dateTimeType: DateTimeType.time);
-        
+    final DateTimeCubit dateTimeCubit = DateTimeCubit(
+      tag: 11,
+      dateTimeType: DateTimeType.time,
+      dateTimeBroadcast: messageController,
+    );
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        DateTimeDisplay(dateTimeStream: messageController.stream),
         ElevatedButton(
             onPressed: () async {
               final t = await showDateTimePickerModal(
                 context,
-                dateTimeCubit: DateTimeCubit(
-                  dateTimeType: DateTimeType.date,
-                  tag: 5,
-                  messageController: messageController,
-                ),
+                tag: -4,
                 barrierColor: const Color(0x0f000000),
                 dateTimeFormat: _dateTimeFormat,
                 setWidget: const Text('Set', style: _textStyle),
                 dateCaption: _dateCaption,
                 timeCaption: _timeCaption,
+                messageController: messageController,
               );
               debugPrint('T:$t');
             },
@@ -72,6 +75,7 @@ class HomeScaffold extends StatelessWidget {
             dateCaption: _dateCaption,
             timeCaption: _timeCaption,
             pickerSize: PickerStyles.pickerSize,
+            dateTimeBroadcast: messageController,
             child: const Text(
               'Tap This!',
               style: TextStyle(fontSize: 14.0),

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:date_time_picker/date_time_picker/cubit/date_time_broadcast.dart';
 import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
 import 'package:date_time_picker/date_time_picker/date_time_picker_widget.dart';
 import 'package:date_time_picker/date_time_picker/picker_styles.dart';
@@ -15,7 +16,9 @@ Future<DateTime?> showDateTimePickerModal(
   required Widget setWidget,
   Widget? dateCaption,
   Widget? timeCaption,
-  required DateTimeCubit dateTimeCubit,
+  required int tag,
+  DateTimeType dateTimeType = DateTimeType.both,
+  StreamController<DateTimeBroadcast>? messageController,
 }) async {
   DateTime? result = await showGeneralDialog(
     context: context,
@@ -25,7 +28,11 @@ Future<DateTime?> showDateTimePickerModal(
     transitionDuration: const Duration(milliseconds: 300),
     pageBuilder: (_, __, ___) => DateTimePickerModalContent(
       barrierColor: barrierColor,
-      dateTimeCubit: dateTimeCubit,
+      dateTimeCubit: DateTimeCubit(
+        tag: tag,
+        dateTimeBroadcast: messageController,
+        dateTimeType: dateTimeType,
+      ),
       dateTimeFormat: dateTimeFormat,
       setWidget: setWidget,
       dateCaption: dateCaption,

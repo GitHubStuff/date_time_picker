@@ -49,7 +49,8 @@ class DateTimeHeader extends StatelessWidget {
                   child: GestureDetector(
                       onTap: () {
                         context.read<DateTimeCubit>().setDateTime(true);
-                        DateTime result = context.read<DateTimeCubit>().state.dateTime;
+                        DateTime result =
+                            context.read<DateTimeCubit>().state.dateTime;
                         Navigator.of(context).pop<DateTime>(result);
                       },
                       child: setWidget),

@@ -13,8 +13,8 @@ class DateTimeCubit extends Cubit<DateTimeState> {
     required this.tag,
     DateTime? initialDateTime,
     required DateTimeType dateTimeType,
-    StreamController<DateTimeBroadcast>? messageController,
-  })  : _messageController = messageController,
+    required StreamController<DateTimeBroadcast>? dateTimeBroadcast,
+  })  : _messageController = dateTimeBroadcast,
         super(_initialState(dateTimeType, initialDateTime));
 
   static DateTimeState _initialState(

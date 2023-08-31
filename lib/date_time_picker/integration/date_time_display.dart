@@ -16,6 +16,7 @@ class DateTimeDisplay extends StatefulWidget {
 
 class _DateTimeDisplayState extends State<DateTimeDisplay> {
   DateTime? _currentDateTime;
+  int? _id;
   late StreamSubscription<DateTimeBroadcast> _subscription;
 
   @override
@@ -26,6 +27,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> {
     _subscription = widget.dateTimeStream.listen((broadcast) {
       setState(() {
         _currentDateTime = broadcast.dateTime;
+        _id = broadcast.tag;
       });
     });
   }
@@ -36,7 +38,7 @@ class _DateTimeDisplayState extends State<DateTimeDisplay> {
       return const CircularProgressIndicator(); // Display spinner
     } else {
       return Text(
-          'Date and Time: ${_currentDateTime!.toLocal()}'); // Display dateTime
+          'Date and Time: ${_currentDateTime!.toLocal()} : ID:$_id'); // Display dateTime
     }
   }
 
@@ -57,14 +59,15 @@ class Test extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          DateTimeCubit(messageController: _messageController, tag: 1, dateTimeType: DateTimeType.both),
+      create: (context) => DateTimeCubit(
+          dateTimeBroadcast: _messageController,
+          tag: 1,
+          dateTimeType: DateTimeType.both),
       child: Scaffold(
         appBar: AppBar(title: const Text("DateTime Stream Test")),
         body: Builder(builder: (context) {
           return Column(
             children: [
-              DateTimeDisplay(dateTimeStream: _messageController.stream),
               ElevatedButton(
                 onPressed: () {
                   // For the sake of demonstration, we're setting the current date time when the button is pressed.
