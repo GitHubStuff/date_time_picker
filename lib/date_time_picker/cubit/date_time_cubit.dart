@@ -117,6 +117,7 @@ class DateTimeCubit extends Cubit<DateTimeState> {
       median: newDateTime.hour >= 12 ? Median.PM : Median.AM,
       daysInMonth: _daysInMonth(newDateTime.month, newDateTime.year),
       showDate: showDate ?? state.showDate,
+      jumpToDateTime: false,
     ));
   }
 }

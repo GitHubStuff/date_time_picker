@@ -40,8 +40,9 @@ class _DateWheelSelector extends State<ScrollWheelForDate>
         if (state.jumpToDateTime) {
           Future.delayed(Duration.zero, () {
             yearController.jumpToItem(state.dateTime.year - 1900);
-            monthController.jumpToItem(state.dateTime.month - 1);
-            dayController.jumpToItem(state.dateTime.day - 1);
+            monthController.jumpToItem(state.dateTime.month - 1 + 12);
+            final days = state.daysInMonth;
+            dayController.jumpToItem(state.dateTime.day - 1 + days);
           });
         }
         return Container(
@@ -95,8 +96,8 @@ class _DateWheelSelector extends State<ScrollWheelForDate>
         onSelectedItemChanged: (yearIndex) {
           context.read<DateTimeCubit>().updateYear(1900 + yearIndex);
         },
-        diameterRatio: 1.5,
-        magnification: 1.2,
+        diameterRatio: PickerStyles.diameterRatio,
+        magnification: PickerStyles.magnification,
         useMagnifier: true,
         itemExtent: _extent,
         children: List.generate(
@@ -108,8 +109,8 @@ class _DateWheelSelector extends State<ScrollWheelForDate>
   }
 
   Widget _buildMonthWheel(BuildContext context, int selectedMonth) {
-    List<String> months = List.generate(12, (index) {
-      return DateFormat('MMM').format(DateTime(2021, index + 1));
+    List<String> months = List.generate(36, (index) {
+      return DateFormat('MMM').format(DateTime(2021, (index % 12) + 1));
     });
     return SizedBox(
       width: widget.size.width / _scaler,
@@ -118,10 +119,10 @@ class _DateWheelSelector extends State<ScrollWheelForDate>
         controller: monthController,
         physics: const FixedExtentScrollPhysics(),
         onSelectedItemChanged: (monthIndex) {
-          context.read<DateTimeCubit>().updateMonth(monthIndex);
+          context.read<DateTimeCubit>().updateMonth(monthIndex % 12);
         },
-        diameterRatio: 1.5,
-        magnification: 1.2,
+        diameterRatio: PickerStyles.diameterRatio,
+        magnification: PickerStyles.magnification,
         useMagnifier: true,
         itemExtent: _extent,
         children: months
@@ -139,15 +140,17 @@ class _DateWheelSelector extends State<ScrollWheelForDate>
         controller: dayController,
         physics: const FixedExtentScrollPhysics(),
         onSelectedItemChanged: (day) {
-          context.read<DateTimeCubit>().updateDay(day + 1);
+          context
+              .read<DateTimeCubit>()
+              .updateDay((day % state.daysInMonth) + 1);
         },
-        diameterRatio: 1.5,
-        magnification: 1.2,
+        diameterRatio: PickerStyles.diameterRatio,
+        magnification: PickerStyles.magnification,
         useMagnifier: true,
         itemExtent: _extent,
         children: List.generate(
-          state.daysInMonth,
-          (index) => Text('${index + 1}', style: PickerStyles().textStyle),
+          state.daysInMonth * 3,
+          (index) => Text('${(index % state.daysInMonth) + 1}', style: PickerStyles().textStyle),
         ),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class PickerStyles {
   static const double diameterRatio = 1.5;
+  static const double magnification = 1.2;
   static const Size pickerSize = Size(230.0, 255.0);
   static const Size headerSize = Size(230.0, 56.0);
   static const Size selectorSize = Size(230.0, 49.0);
