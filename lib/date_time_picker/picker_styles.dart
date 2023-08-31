@@ -44,9 +44,9 @@ class PickerStyles {
   }
 
   // Properties with default values
-  late Color dateColor;
-  late Color timeColor;
-  late Color headerColor;
-  late TextStyle textStyle;
-  late TextStyle headerStyle;
+  late final Color dateColor;
+  late final Color timeColor;
+  late final Color headerColor;
+  late final TextStyle textStyle;
+  late final TextStyle headerStyle;
 }
