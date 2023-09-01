@@ -35,7 +35,9 @@ class DateTimePickerWidget extends StatelessWidget {
     } else if (dateFormat == null && dateCaption != null) {
       dateFormat = PickerStyling.dateFormat;
     } else if (dateFormat == null && timeCaption != null) {
-      dateFormat = (useSeconds) ? PickerStyling.timeFormatWithSeconds :  PickerStyling.timeFormat;
+      dateFormat = (useSeconds)
+          ? PickerStyling.timeFormatWithSeconds
+          : PickerStyling.timeFormat;
     }
     dateFormat ??= PickerStyling.dateTimeFormat;
     return Material(

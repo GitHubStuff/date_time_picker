@@ -18,11 +18,13 @@ class DateTimeCubit extends Cubit<DateTimeState> {
   // Getters for display properties
   bool get displayDate =>
       state.dateTimeType == DateTimeType.date ||
-      state.dateTimeType == DateTimeType.both;
+      state.dateTimeType == DateTimeType.both ||
+      state.dateTimeType == DateTimeType.bothWithSeconds;
 
   bool get displayTime =>
       state.dateTimeType == DateTimeType.time ||
-      state.dateTimeType == DateTimeType.both;
+      state.dateTimeType == DateTimeType.both ||
+      state.dateTimeType == DateTimeType.bothWithSeconds;
 
   bool get displayTimeWithSeconds =>
       state.dateTimeType == DateTimeType.timeWithSeconds ||
@@ -81,7 +83,8 @@ class DateTimeCubit extends Cubit<DateTimeState> {
       now.hour >= 12 ? Median.PM : Median.AM,
       _daysInMonth(now.month, now.year),
       showDate: dateTimeType == DateTimeType.date ||
-          dateTimeType == DateTimeType.both,
+          dateTimeType == DateTimeType.both ||
+          dateTimeType == DateTimeType.bothWithSeconds,
       dateTimeType: dateTimeType,
       jumpToDateTime: true,
       pickerMode: mode,
@@ -124,7 +127,7 @@ class DateTimeCubit extends Cubit<DateTimeState> {
       day: day,
       hour: hour ?? currentDateTime.hour,
       minute: minute ?? currentDateTime.minute,
-      second: displayTimeWithSeconds ?  (second ?? currentDateTime.second) : 0,
+      second: displayTimeWithSeconds ? (second ?? currentDateTime.second) : 0,
       millisecond: 0,
       microsecond: 0,
     );

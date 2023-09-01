@@ -7,8 +7,8 @@ class PickerStyling {
   static const Color darkDateColor = Color(0xff003366);
   static const Color darkTimeColor = Color(0xff4b0082);
   static const Color darkTitleColor = Color(0xff002855);
-  static const Color liteDateColor = Color(0xFFFFFFFF);
-  static const Color liteTimeColor = Color(0xFFE0E0E0);
+  static const Color liteDateColor = Color(0xFFFafafa);
+  static const Color liteTimeColor = Color(0xFFF0F0F0);
   static const Color liteTitleColor = Color(0xFFF5F5F5);
   static const double diameterRatio = 1.5;
   static const double magnification = 1.2;

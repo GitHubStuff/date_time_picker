@@ -30,7 +30,11 @@ class HomeScaffold extends StatelessWidget {
   }
 
   Widget homeWidget(BuildContext context) {
-    PickerStyling.init();
+    PickerStyling.init(
+      // dateColorDark: Colors.pink,
+      // dateColorLight: Colors.purple[100],
+      // timeColorLight: Colors.green[100],
+    );
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -53,6 +57,22 @@ class HomeScaffold extends StatelessWidget {
               debugPrint('T:$t');
             },
             child: const Text('Show Picker')),
+        ElevatedButton(
+            onPressed: () async {
+              final t = await showDateTimePickerModal(
+                context,
+                pickerMode: PickerMode.light,
+                useSeconds: true,
+                broadcastId: GlobalKey(),
+                barrierColor: const Color(0x0f000000),
+                setWidget: const AquaButton(color: Colors.amber),
+                dateCaption: _dateCaption,
+                timeCaption: _timeCaption,
+                messageController: messageController,
+              );
+              debugPrint('T:$t');
+            },
+            child: const Text('Show Another Picker')),
         Padding(
           padding: const EdgeInsets.all(12.0),
           child: PositionedDateTimeModal(

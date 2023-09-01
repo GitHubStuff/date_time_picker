@@ -47,13 +47,14 @@ class DateTimeHeader extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: GestureDetector(
-                      onTap: () {
-                        context.read<DateTimeCubit>().setDateTime(true);
-                        DateTime result =
-                            context.read<DateTimeCubit>().state.dateTime;
-                        Navigator.of(context).pop<DateTime>(result);
-                      },
-                      child: setWidget),
+                    onTap: () {
+                      context.read<DateTimeCubit>().setDateTime(true);
+                      DateTime result =
+                          context.read<DateTimeCubit>().state.dateTime;
+                      Navigator.of(context).pop<DateTime>(result);
+                    },
+                    child: setWidget,
+                  ),
                 ),
               ),
             ],
