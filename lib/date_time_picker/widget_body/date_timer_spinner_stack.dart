@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShowDateTimeStack extends StatelessWidget {
-  const ShowDateTimeStack({super.key});
+  final bool useSeconds;
+  const ShowDateTimeStack({super.key, required this.useSeconds});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class ShowDateTimeStack extends StatelessWidget {
                   opacity: showDate ? 1.0 : 0.0,
                   duration: const Duration(milliseconds: 500),
                   child:
-                      const ScrollWheelForDate(size: PickerStyles.spinnerSize),
+                      const ScrollWheelForDate(size: PickerStyling.spinnerSize),
                 ),
               ),
             if (context.read<DateTimeCubit>().displayTime)
@@ -31,8 +32,10 @@ class ShowDateTimeStack extends StatelessWidget {
                 child: AnimatedOpacity(
                   opacity: showDate ? 0.0 : 1.0,
                   duration: const Duration(milliseconds: 500),
-                  child:
-                      const ScrollWheelForTime(size: PickerStyles.spinnerSize),
+                  child: ScrollWheelForTime(
+                    size: PickerStyling.spinnerSize,
+                    useSeconds: useSeconds,
+                  ),
                 ),
               ),
           ],

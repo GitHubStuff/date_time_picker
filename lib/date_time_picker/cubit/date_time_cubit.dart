@@ -1,5 +1,5 @@
-
 import 'package:date_time_picker/date_time_picker/cubit/date_time_broadcast.dart';
+import 'package:date_time_picker/date_time_picker/picker_styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'date_time_state.dart';
@@ -11,10 +11,14 @@ class DateTimeCubit extends Cubit<DateTimeState> {
     this.broadcastId,
     DateTime? initialDateTime,
     required DateTimeType dateTimeType,
-  }) : super(_initialState(dateTimeType, initialDateTime));
+    required PickerMode pickerMode,
+  }) : super(_initialState(dateTimeType, initialDateTime, pickerMode));
 
   static DateTimeState _initialState(
-      DateTimeType dateTimeType, DateTime? initialDateTime) {
+    DateTimeType dateTimeType,
+    DateTime? initialDateTime,
+    PickerMode mode,
+  ) {
     final now = initialDateTime ?? DateTime.now();
     return DateTimeState(
       now,
@@ -24,6 +28,7 @@ class DateTimeCubit extends Cubit<DateTimeState> {
           dateTimeType == DateTimeType.both,
       dateTimeType: dateTimeType,
       jumpToDateTime: true,
+      pickerMode: mode,
     );
   }
 

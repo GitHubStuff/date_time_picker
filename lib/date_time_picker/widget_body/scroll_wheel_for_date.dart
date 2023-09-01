@@ -46,26 +46,26 @@ class _DateWheelSelector extends State<ScrollWheelForDate>
           });
         }
         return Container(
-          color: PickerStyles().dateColor,
+          color: (PickerStyling().dateColor(state.pickerMode)),
           height: widget.size.height,
           width: widget.size.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(width: 4.0),
-              _buildYearWheel(context, state.dateTime.year),
+              _buildYearWheel(context, state.dateTime.year, state.pickerMode),
               staticTextWheel(
                   extent: _extent,
                   content: Text(
                     '-',
-                    style: PickerStyles().textStyle,
+                    style: PickerStyling().textStyle(state.pickerMode),
                   )),
-              _buildMonthWheel(context, state.dateTime.month),
+              _buildMonthWheel(context, state.dateTime.month, state.pickerMode),
               staticTextWheel(
                   extent: _extent,
                   content: Text(
                     '-',
-                    style: PickerStyles().textStyle,
+                    style: PickerStyling().textStyle(state.pickerMode),
                   )),
               _buildDayWheel(
                 context,
@@ -86,7 +86,8 @@ class _DateWheelSelector extends State<ScrollWheelForDate>
     super.dispose();
   }
 
-  Widget _buildYearWheel(BuildContext context, int selectedYear) {
+  Widget _buildYearWheel(
+      BuildContext context, int selectedYear, PickerMode mode) {
     return SizedBox(
       width: widget.size.width / _scaler,
       height: widget.size.height,
@@ -96,19 +97,20 @@ class _DateWheelSelector extends State<ScrollWheelForDate>
         onSelectedItemChanged: (yearIndex) {
           context.read<DateTimeCubit>().updateYear(1900 + yearIndex);
         },
-        diameterRatio: PickerStyles.diameterRatio,
-        magnification: PickerStyles.magnification,
+        diameterRatio: PickerStyling.diameterRatio,
+        magnification: PickerStyling.magnification,
         useMagnifier: true,
         itemExtent: _extent,
         children: List.generate(
             301,
-            (index) =>
-                Text('${1900 + index}', style: PickerStyles().textStyle)),
+            (index) => Text('${1900 + index}',
+                style: PickerStyling().textStyle(mode))),
       ),
     );
   }
 
-  Widget _buildMonthWheel(BuildContext context, int selectedMonth) {
+  Widget _buildMonthWheel(
+      BuildContext context, int selectedMonth, PickerMode mode) {
     List<String> months = List.generate(36, (index) {
       return DateFormat('MMM').format(DateTime(2021, (index % 12) + 1));
     });
@@ -121,12 +123,12 @@ class _DateWheelSelector extends State<ScrollWheelForDate>
         onSelectedItemChanged: (monthIndex) {
           context.read<DateTimeCubit>().updateMonth(monthIndex % 12);
         },
-        diameterRatio: PickerStyles.diameterRatio,
-        magnification: PickerStyles.magnification,
+        diameterRatio: PickerStyling.diameterRatio,
+        magnification: PickerStyling.magnification,
         useMagnifier: true,
         itemExtent: _extent,
         children: months
-            .map((month) => Text(month, style: PickerStyles().textStyle))
+            .map((month) => Text(month, style: PickerStyling().textStyle(mode)))
             .toList(),
       ),
     );
@@ -144,13 +146,14 @@ class _DateWheelSelector extends State<ScrollWheelForDate>
               .read<DateTimeCubit>()
               .updateDay((day % state.daysInMonth) + 1);
         },
-        diameterRatio: PickerStyles.diameterRatio,
-        magnification: PickerStyles.magnification,
+        diameterRatio: PickerStyling.diameterRatio,
+        magnification: PickerStyling.magnification,
         useMagnifier: true,
         itemExtent: _extent,
         children: List.generate(
           state.daysInMonth * 3,
-          (index) => Text('${(index % state.daysInMonth) + 1}', style: PickerStyles().textStyle),
+          (index) => Text('${(index % state.daysInMonth) + 1}',
+              style: PickerStyling().textStyle(state.pickerMode)),
         ),
       ),
     );

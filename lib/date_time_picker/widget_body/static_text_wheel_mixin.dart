@@ -10,7 +10,7 @@ mixin StaticTextWheelMixin<T extends StatefulWidget> on State<T> {
         physics: const NeverScrollableScrollPhysics(),
         useMagnifier: true,
         itemExtent: extent,
-        diameterRatio: PickerStyles.diameterRatio,
+        diameterRatio: PickerStyling.diameterRatio,
         children: [content],
       ),
     );

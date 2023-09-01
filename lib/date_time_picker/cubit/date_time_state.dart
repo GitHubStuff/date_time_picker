@@ -16,6 +16,7 @@ class DateTimeState {
   final bool jumpToDateTime;
   final bool showDate;
   final DateTimeType dateTimeType;
+  final PickerMode pickerMode;
 
   DateTimeState(
     this.dateTime,
@@ -24,6 +25,7 @@ class DateTimeState {
     this.jumpToDateTime = false,
     required this.showDate,
     required this.dateTimeType,
+    required this.pickerMode,
   });
 
   DateTimeState copyWith({
@@ -33,6 +35,7 @@ class DateTimeState {
     bool? jumpToDateTime,
     bool? showDate,
     DateTimeType? dateTimeType,
+    PickerMode? pickerMode,
   }) {
     return DateTimeState(
       dateTime ?? this.dateTime,
@@ -41,6 +44,7 @@ class DateTimeState {
       jumpToDateTime: jumpToDateTime ?? this.jumpToDateTime,
       showDate: showDate ?? this.showDate,
       dateTimeType: dateTimeType ?? this.dateTimeType,
+      pickerMode: pickerMode ?? this.pickerMode,
     );
   }
 }

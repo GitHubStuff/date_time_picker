@@ -39,32 +39,35 @@ class _TimeWheelSelector extends State<ScrollWheelForTime>
       builder: (context, state) {
         if (state.jumpToDateTime) {
           Future.delayed(Duration.zero, () {
-            hourController.jumpToItem(state.dateTime.hour % 12);
-            minuteController.jumpToItem(state.dateTime.minute);
-            secondController.jumpToItem(state.dateTime.second);
+            hourController.jumpToItem(state.dateTime.hour % 12 + 12);
+            minuteController.jumpToItem(state.dateTime.minute + 60);
+            secondController.jumpToItem(state.dateTime.second + 60);
             medianController.jumpToItem(state.median.index);
           });
         }
 
         return Container(
-          color: PickerStyles().timeColor,
+          color: PickerStyling().timeColor(state.pickerMode),
           height: widget.size.height,
           width: widget.size.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              _buildHourWheel(context, state.dateTime.hour),
+              _buildHourWheel(context, state.dateTime.hour, state.pickerMode),
               staticTextWheel(
                   extent: _extent,
-                  content: Text(':', style: PickerStyles().textStyle)),
-              _buildMinuteWheel(context, state.dateTime.minute),
+                  content: Text(':',
+                      style: PickerStyling().textStyle(state.pickerMode))),
+              _buildMinuteWheel(context, state.dateTime.minute, state.pickerMode),
               if (widget.useSeconds) ...[
                 staticTextWheel(
                     extent: _extent,
-                    content: Text(':', style: PickerStyles().textStyle)),
-                _buildSecondWheel(context, state.dateTime.second),
+                    content: Text(':',
+                        style: PickerStyling().textStyle(state.pickerMode))),
+                _buildSecondWheel(context, state.dateTime.second, state.pickerMode),
               ],
-              _buildMedianWheel(context, state.median),
+              _buildMedianWheel(context, state.median, state.pickerMode),
             ],
           ),
         );
@@ -81,7 +84,8 @@ class _TimeWheelSelector extends State<ScrollWheelForTime>
     super.dispose();
   }
 
-  Widget _buildHourWheel(BuildContext context, int selectedHour) {
+  Widget _buildHourWheel(
+      BuildContext context, int selectedHour, PickerMode mode) {
     return SizedBox(
       width: widget.size.width / 4.0,
       height: widget.size.height,
@@ -89,22 +93,25 @@ class _TimeWheelSelector extends State<ScrollWheelForTime>
         controller: hourController,
         physics: const FixedExtentScrollPhysics(),
         onSelectedItemChanged: (hour) {
-          context.read<DateTimeCubit>().updateHour(hour);
+          context.read<DateTimeCubit>().updateHour(hour % 12);
         },
-        diameterRatio: 1.5,
-        magnification: 1.2,
+        diameterRatio: PickerStyling.diameterRatio,
+        magnification: PickerStyling.magnification,
         useMagnifier: true,
         itemExtent: _extent,
         children: List.generate(
-          12,
-          (index) => Text('${(index) % 12 == 0 ? 12 : (index) % 12}',
-              style: PickerStyles().textStyle),
+          36,
+          (index) => Text(
+            '${(index) % 12 == 0 ? 12 : (index) % 12}',
+            style: PickerStyling().textStyle(mode),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildMinuteWheel(BuildContext context, int selectedMinute) {
+  Widget _buildMinuteWheel(
+      BuildContext context, int selectedMinute, PickerMode mode) {
     return SizedBox(
       width: widget.size.width / 4.0,
       height: widget.size.height,
@@ -112,21 +119,23 @@ class _TimeWheelSelector extends State<ScrollWheelForTime>
         controller: minuteController,
         physics: const FixedExtentScrollPhysics(),
         onSelectedItemChanged: (minute) {
-          context.read<DateTimeCubit>().updateMinute(minute);
+          context.read<DateTimeCubit>().updateMinute(minute % 60);
         },
-        diameterRatio: 1.5,
-        magnification: 1.2,
+        diameterRatio: PickerStyling.diameterRatio,
+        magnification: PickerStyling.magnification,
         useMagnifier: true,
         itemExtent: _extent,
         children: List.generate(
-            60,
-            (index) => Text(index.toString().padLeft(2, '0'),
-                style: PickerStyles().textStyle)),
+          180,
+          (index) => Text((index % 60).toString().padLeft(2, '0'),
+              style: PickerStyling().textStyle(mode)),
+        ),
       ),
     );
   }
 
-  Widget _buildSecondWheel(BuildContext context, int selectedSecond) {
+  Widget _buildSecondWheel(
+      BuildContext context, int selectedSecond, PickerMode mode) {
     return SizedBox(
       width: widget.size.width / 4.0,
       height: widget.size.height,
@@ -136,19 +145,20 @@ class _TimeWheelSelector extends State<ScrollWheelForTime>
         onSelectedItemChanged: (second) {
           context.read<DateTimeCubit>().updateSecond(second);
         },
-        diameterRatio: 1.5,
-        magnification: 1.2,
+        diameterRatio: PickerStyling.diameterRatio,
+        magnification: PickerStyling.magnification,
         useMagnifier: true,
         itemExtent: _extent,
         children: List.generate(
-            60,
-            (index) => Text(index.toString().padLeft(2, '0'),
-                style: PickerStyles().textStyle)),
+            180,
+            (index) => Text((index % 60).toString().padLeft(2, '0'),
+                style: PickerStyling().textStyle(mode))),
       ),
     );
   }
 
-  Widget _buildMedianWheel(BuildContext context, Median median) {
+  Widget _buildMedianWheel(
+      BuildContext context, Median median, PickerMode mode) {
     return SizedBox(
       width: widget.size.width / 4.0,
       height: widget.size.height,
@@ -158,13 +168,13 @@ class _TimeWheelSelector extends State<ScrollWheelForTime>
         onSelectedItemChanged: (index) {
           context.read<DateTimeCubit>().updateMedian(Median.values[index]);
         },
-        diameterRatio: 1.5,
-        magnification: 1.2,
+        diameterRatio: PickerStyling.diameterRatio,
+        magnification: PickerStyling.magnification,
         useMagnifier: true,
         itemExtent: _extent,
         children: Median.values
             .map((value) => Text(value == Median.AM ? 'AM' : 'PM',
-                style: PickerStyles().textStyle))
+                style: PickerStyling().textStyle(mode)))
             .toList(),
       ),
     );

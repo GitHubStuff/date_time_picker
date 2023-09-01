@@ -13,12 +13,14 @@ class DateTimePickerWidget extends StatelessWidget {
   final Widget? timeCaption;
   final Widget? dateCaption;
   final DateTimeCubit dateTimeCubit;
+  final bool useSeconds;
 
   const DateTimePickerWidget({
     super.key,
     required this.setDateTimeWidget,
     this.dateTimeFormat,
     required this.dateTimeCubit,
+    required this.useSeconds,
     this.dateCaption,
     this.timeCaption,
   });
@@ -29,11 +31,11 @@ class DateTimePickerWidget extends StatelessWidget {
         'dateCaption and timeCaption cannot be null');
     String? dateFormat = dateTimeFormat;
     if (dateFormat == null && dateCaption != null) {
-      dateFormat = PickerStyles.dateFormat;
+      dateFormat = PickerStyling.dateFormat;
     } else if (dateFormat == null && timeCaption != null) {
-      dateFormat = PickerStyles.timeFormat;
+      dateFormat = PickerStyling.timeFormat;
     }
-    dateFormat ??= PickerStyles.dateTimeFormat;
+    dateFormat ??= PickerStyling.dateTimeFormat;
     return Material(
       type: MaterialType.transparency,
       child: BlocProvider(
@@ -43,19 +45,19 @@ class DateTimePickerWidget extends StatelessWidget {
             /// Displays the header with the date/time and the set button
             DateTimeHeader(
               dateTimeFormat: dateFormat,
-              size: PickerStyles.headerSize,
+              size: PickerStyling.headerSize,
               setWidget: setDateTimeWidget,
             ),
 
             /// Displays the date and time selector tabs with captions for each
             DateTimeSelectorTabs(
-              size: PickerStyles.selectorSize,
+              size: PickerStyling.selectorSize,
               dateCaption: dateCaption ?? const SizedBox.shrink(),
               timeCaption: timeCaption ?? const SizedBox.shrink(),
             ),
 
             /// Displays the date and time spinners
-            const ShowDateTimeStack(),
+            ShowDateTimeStack(useSeconds: useSeconds),
           ],
         ),
       ),

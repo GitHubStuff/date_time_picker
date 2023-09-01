@@ -28,7 +28,7 @@ class DateTimeSelectorTabs extends StatelessWidget {
               child: InkWell(
                 onTap: () => cubit.showPicker(date: true),
                 child: Container(
-                  color: PickerStyles().dateColor,
+                  color: PickerStyling().dateColor(cubit.state.pickerMode),
                   child: Center(child: dateCaption),
                 ),
               ),
@@ -38,7 +38,7 @@ class DateTimeSelectorTabs extends StatelessWidget {
               child: InkWell(
                 onTap: () => cubit.showPicker(date: false),
                 child: Container(
-                  color: PickerStyles().timeColor,
+                  color: PickerStyling().timeColor(cubit.state.pickerMode),
                   child: Center(child: timeCaption),
                 ),
               ),

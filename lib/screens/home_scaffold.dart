@@ -30,7 +30,7 @@ class HomeScaffold extends StatelessWidget {
   }
 
   Widget homeWidget(BuildContext context) {
-    PickerStyles.init();
+    PickerStyling.init();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -41,6 +41,8 @@ class HomeScaffold extends StatelessWidget {
             onPressed: () async {
               final t = await showDateTimePickerModal(
                 context,
+                pickerMode: PickerMode.dark,
+                useSeconds: true,
                 broadcastId: GlobalKey(),
                 barrierColor: const Color(0x0f000000),
                 setWidget: const Text('Set', style: _textStyle),
@@ -62,10 +64,12 @@ class HomeScaffold extends StatelessWidget {
               Sides.top,
               Sides.bottom
             ],
+            useSeconds: false,
+            pickerMode: PickerMode.light,
             setWidget: const AquaButton(),
             dateCaption: _dateCaption,
             timeCaption: _timeCaption,
-            pickerSize: PickerStyles.pickerSize,
+            pickerSize: PickerStyling.pickerSize,
             dateTimeBroadcast: messageController,
             child: const Text(
               'Tap This!',

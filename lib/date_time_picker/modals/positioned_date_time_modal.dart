@@ -31,21 +31,25 @@ class PositionedDateTimeModal extends StatefulWidget {
   final Widget setWidget;
   final Widget? timeCaption;
   final StreamController<DateTimeBroadcast>? dateTimeBroadcast;
+  final bool useSeconds;
+  final PickerMode pickerMode;
 
   const PositionedDateTimeModal({
     super.key,
     required this.child,
+    required this.pickerMode,
+    required this.pickerSize,
+    required this.setWidget,
+    required this.useSeconds,
+    this.barrierColor = PickerStyling.barrierColor,
     this.broadcastId,
     this.dateCaption,
     this.dateTimeBroadcast,
+    this.dateTimeFormat = PickerStyling.dateTimeFormat,
     this.dateTimeType = DateTimeType.both,
-    required this.pickerSize,
-    required this.setWidget,
-    this.timeCaption,
-    this.barrierColor = PickerStyles.barrierColor,
-    this.dateTimeFormat = PickerStyles.dateTimeFormat,
     this.overrideXPos,
     this.overrideYPos,
+    this.timeCaption,
     this.sidePriority = const [
       Sides.right,
       Sides.left,
@@ -68,16 +72,18 @@ class _SideModal extends State<PositionedDateTimeModal> {
       final t = await showDateTimePickerModal(
         context,
         barrierColor: widget.barrierColor,
-        setWidget: widget.setWidget,
+        broadcastId: widget.broadcastId,
+        dateCaption: widget.dateCaption,
+        dateTimeFormat: widget.dateTimeFormat,
         dateTimeType: widget.dateTimeType,
         left: widget.overrideXPos!,
-        top: widget.overrideYPos!,
-        broadcastId: widget.broadcastId,
-        size: widget.pickerSize,
         messageController: widget.dateTimeBroadcast,
-        dateTimeFormat: widget.dateTimeFormat,
-        dateCaption: widget.dateCaption,
+        pickerMode: widget.pickerMode,
+        setWidget: widget.setWidget,
+        size: widget.pickerSize,
         timeCaption: widget.timeCaption,
+        top: widget.overrideYPos!,
+        useSeconds: widget.useSeconds,
       );
       debugPrint('_showPicker t: $t');
       return;
@@ -143,15 +149,17 @@ class _SideModal extends State<PositionedDateTimeModal> {
       if (foundFit) {
         final k = await showDateTimePickerModal(
           context,
-          broadcastId: 12,
           barrierColor: widget.barrierColor,
-          dateTimeFormat: widget.dateTimeFormat,
-          setWidget: widget.setWidget,
-          left: x,
-          top: y,
+          broadcastId: 12,
           dateCaption: widget.dateCaption,
-          timeCaption: widget.timeCaption,
+          dateTimeFormat: widget.dateTimeFormat,
+          left: x,
           messageController: widget.dateTimeBroadcast,
+          pickerMode: widget.pickerMode,
+          setWidget: widget.setWidget,
+          timeCaption: widget.timeCaption,
+          top: y,
+          useSeconds: widget.useSeconds,
         );
         debugPrint('_showPicker k: $k');
         return;
@@ -160,15 +168,17 @@ class _SideModal extends State<PositionedDateTimeModal> {
     if (!foundFit) {
       final m = await showDateTimePickerModal(
         context,
-        broadcastId: 14,
         barrierColor: widget.barrierColor,
-        setWidget: widget.setWidget,
+        broadcastId: 14,
+        dateCaption: widget.dateCaption,
         dateTimeFormat: widget.dateTimeFormat,
         left: (screenWidth - pickerSize.width) / 2,
-        top: (screenHeight - pickerSize.height) / 2,
-        dateCaption: widget.dateCaption,
-        timeCaption: widget.timeCaption,
         messageController: widget.dateTimeBroadcast,
+        pickerMode: widget.pickerMode,
+        setWidget: widget.setWidget,
+        timeCaption: widget.timeCaption,
+        top: (screenHeight - pickerSize.height) / 2,
+        useSeconds: widget.useSeconds,
       );
       debugPrint('_showPicker m: $m');
     }

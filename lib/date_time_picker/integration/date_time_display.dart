@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:date_time_picker/date_time_picker/cubit/date_time_broadcast.dart';
 import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
+import 'package:date_time_picker/date_time_picker/picker_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,8 +57,11 @@ class Test extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          DateTimeCubit(broadcastId: 23.4, dateTimeType: DateTimeType.both),
+      create: (context) => DateTimeCubit(
+        broadcastId: 23.4,
+        dateTimeType: DateTimeType.both,
+        pickerMode: PickerMode.dark,
+      ),
       child: Scaffold(
         appBar: AppBar(title: const Text("DateTime Stream Test")),
         body: Builder(builder: (context) {

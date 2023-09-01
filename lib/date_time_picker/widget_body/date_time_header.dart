@@ -22,7 +22,7 @@ class DateTimeHeader extends StatelessWidget {
       builder: (context, state) {
         final formattedDate = DateFormat(dateTimeFormat).format(state.dateTime);
         return Container(
-          color: PickerStyles().headerColor,
+          color: PickerStyling().titleColor(state.pickerMode),
           width: size.width,
           height: size.height,
           child: Stack(
@@ -36,7 +36,7 @@ class DateTimeHeader extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     formattedDate,
-                    style: PickerStyles().headerStyle,
+                    style: PickerStyling().titleStyle(state.pickerMode),
                     softWrap: true,
                     maxLines: 2,
                   ),

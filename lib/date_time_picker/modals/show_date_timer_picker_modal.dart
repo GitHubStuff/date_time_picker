@@ -14,11 +14,13 @@ Future<DateTime?> showDateTimePickerModal(
   double? left,
   double? top,
   Object? broadcastId,
-  Size size = PickerStyles.pickerSize,
+  Size size = PickerStyling.pickerSize,
   StreamController<DateTimeBroadcast>? messageController,
   String? dateTimeFormat,
   Widget? dateCaption,
   Widget? timeCaption,
+  required bool useSeconds,
+  required PickerMode pickerMode,
 }) async {
   DateTime? result = await showGeneralDialog(
     context: context,
@@ -28,9 +30,11 @@ Future<DateTime?> showDateTimePickerModal(
     transitionDuration: const Duration(milliseconds: 300),
     pageBuilder: (_, __, ___) => DateTimePickerModalContent(
       barrierColor: barrierColor,
+      useSeconds: useSeconds,
       dateTimeCubit: DateTimeCubit(
         broadcastId: broadcastId,
         dateTimeType: dateTimeType,
+        pickerMode: pickerMode,
       ),
       dateTimeFormat: dateTimeFormat,
       setWidget: setWidget,
@@ -54,19 +58,20 @@ class DateTimePickerModalContent extends StatelessWidget {
   final Widget? dateCaption;
   final Widget? timeCaption;
   final DateTimeCubit dateTimeCubit;
+  final bool useSeconds;
 
-  const DateTimePickerModalContent({
-    super.key,
-    required this.size,
-    required this.barrierColor,
-    this.dateTimeFormat,
-    required this.setWidget,
-    required this.dateTimeCubit,
-    this.dateCaption,
-    this.timeCaption,
-    this.top,
-    this.left,
-  });
+  const DateTimePickerModalContent(
+      {super.key,
+      required this.size,
+      required this.barrierColor,
+      this.dateTimeFormat,
+      required this.setWidget,
+      required this.dateTimeCubit,
+      this.dateCaption,
+      this.timeCaption,
+      this.top,
+      this.left,
+      required this.useSeconds});
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +109,7 @@ class DateTimePickerModalContent extends StatelessWidget {
                 timeCaption: timeCaption,
                 setDateTimeWidget: setWidget,
                 dateTimeFormat: dateTimeFormat,
+                useSeconds: useSeconds,
               ),
             ),
           ),
