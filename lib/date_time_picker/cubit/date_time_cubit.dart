@@ -1,5 +1,6 @@
 import 'package:date_time_picker/date_time_picker/cubit/date_time_broadcast.dart';
 import 'package:date_time_picker/date_time_picker/picker_styles.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'date_time_state.dart';
@@ -97,13 +98,15 @@ class DateTimeCubit extends Cubit<DateTimeState> {
   }) {
     final currentDateTime = state.dateTime;
 
+    final currentDayCount = _daysInMonth(
+        currentDateTime.month, currentDateTime.year);
+    final daysInMonth = _daysInMonth(
+        month ?? currentDateTime.month, year ?? currentDateTime.year);
+
     // Adjust day if it's greater than the days in the specified month
     day = day ?? currentDateTime.day;
-    if (day >
-        _daysInMonth(
-            month ?? currentDateTime.month, year ?? currentDateTime.year)) {
-      day = _daysInMonth(
-          month ?? currentDateTime.month, year ?? currentDateTime.year);
+    if (day > daysInMonth) {
+      day = daysInMonth;
     }
 
     DateTime newDateTime = currentDateTime.copyWith(
@@ -122,7 +125,7 @@ class DateTimeCubit extends Cubit<DateTimeState> {
       median: newDateTime.hour >= 12 ? Median.PM : Median.AM,
       daysInMonth: _daysInMonth(newDateTime.month, newDateTime.year),
       showDate: showDate ?? state.showDate,
-      jumpToDateTime: false,
+      jumpToDateTime: day != currentDateTime.day || currentDayCount != daysInMonth,
     ));
   }
 }

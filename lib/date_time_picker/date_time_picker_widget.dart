@@ -30,7 +30,9 @@ class DateTimePickerWidget extends StatelessWidget {
     assert(dateCaption != null || timeCaption != null,
         'dateCaption and timeCaption cannot be null');
     String? dateFormat = dateTimeFormat;
-    if (dateFormat == null && dateCaption != null) {
+    if (dateFormat == null && dateCaption != null && timeCaption != null) {
+      dateFormat = PickerStyling.dateTimeFormat;
+    } else if (dateFormat == null && dateCaption != null) {
       dateFormat = PickerStyling.dateFormat;
     } else if (dateFormat == null && timeCaption != null) {
       dateFormat = PickerStyling.timeFormat;

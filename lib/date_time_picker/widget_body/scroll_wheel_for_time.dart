@@ -25,12 +25,14 @@ class _TimeWheelSelector extends State<ScrollWheelForTime>
   final secondController = FixedExtentScrollController();
   final medianController = FixedExtentScrollController();
 
-  late double _extent;
+  late final double _extent;
+  late final double wheelWidth;
 
   @override
   void initState() {
     super.initState();
     _extent = widget.size.height / 5.0;
+    wheelWidth = widget.size.width / (widget.useSeconds ? 5.0 : 4.0);
   }
 
   @override
@@ -59,13 +61,15 @@ class _TimeWheelSelector extends State<ScrollWheelForTime>
                   extent: _extent,
                   content: Text(':',
                       style: PickerStyling().textStyle(state.pickerMode))),
-              _buildMinuteWheel(context, state.dateTime.minute, state.pickerMode),
+              _buildMinuteWheel(
+                  context, state.dateTime.minute, state.pickerMode),
               if (widget.useSeconds) ...[
                 staticTextWheel(
                     extent: _extent,
                     content: Text(':',
                         style: PickerStyling().textStyle(state.pickerMode))),
-                _buildSecondWheel(context, state.dateTime.second, state.pickerMode),
+                _buildSecondWheel(
+                    context, state.dateTime.second, state.pickerMode),
               ],
               _buildMedianWheel(context, state.median, state.pickerMode),
             ],
@@ -87,7 +91,7 @@ class _TimeWheelSelector extends State<ScrollWheelForTime>
   Widget _buildHourWheel(
       BuildContext context, int selectedHour, PickerMode mode) {
     return SizedBox(
-      width: widget.size.width / 4.0,
+      width: wheelWidth,
       height: widget.size.height,
       child: ListWheelScrollView(
         controller: hourController,
@@ -113,7 +117,7 @@ class _TimeWheelSelector extends State<ScrollWheelForTime>
   Widget _buildMinuteWheel(
       BuildContext context, int selectedMinute, PickerMode mode) {
     return SizedBox(
-      width: widget.size.width / 4.0,
+      width: wheelWidth,
       height: widget.size.height,
       child: ListWheelScrollView(
         controller: minuteController,
@@ -137,7 +141,7 @@ class _TimeWheelSelector extends State<ScrollWheelForTime>
   Widget _buildSecondWheel(
       BuildContext context, int selectedSecond, PickerMode mode) {
     return SizedBox(
-      width: widget.size.width / 4.0,
+      width: wheelWidth,
       height: widget.size.height,
       child: ListWheelScrollView(
         controller: secondController,
@@ -160,7 +164,7 @@ class _TimeWheelSelector extends State<ScrollWheelForTime>
   Widget _buildMedianWheel(
       BuildContext context, Median median, PickerMode mode) {
     return SizedBox(
-      width: widget.size.width / 4.0,
+      width: wheelWidth,
       height: widget.size.height,
       child: ListWheelScrollView(
         controller: medianController,

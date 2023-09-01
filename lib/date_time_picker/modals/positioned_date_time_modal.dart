@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:date_time_picker/date_time_picker/cubit/date_time_broadcast.dart';
-import 'package:date_time_picker/date_time_picker/cubit/date_time_cubit.dart';
 import 'package:date_time_picker/date_time_picker/modals/show_date_timer_picker_modal.dart';
 import 'package:date_time_picker/date_time_picker/picker_styles.dart';
 import 'package:flutter/material.dart';
@@ -18,21 +17,20 @@ enum Sides {
 const _space = 4.0;
 
 class PositionedDateTimeModal extends StatefulWidget {
-  final int? broadcastId;
-  final DateTimeType dateTimeType;
+  final bool useSeconds;
   final Color barrierColor;
   final double? overrideXPos;
   final double? overrideYPos;
+  final int? broadcastId;
   final List<Sides> sidePriority;
-  final Size pickerSize;
-  final String dateTimeFormat;
-  final Widget child;
-  final Widget? dateCaption;
-  final Widget setWidget;
-  final Widget? timeCaption;
-  final StreamController<DateTimeBroadcast>? dateTimeBroadcast;
-  final bool useSeconds;
   final PickerMode pickerMode;
+  final Size pickerSize;
+  final StreamController<DateTimeBroadcast>? dateTimeBroadcast;
+  final String? dateTimeFormat;
+  final Widget child;
+  final Widget setWidget;
+  final Widget? dateCaption;
+  final Widget? timeCaption;
 
   const PositionedDateTimeModal({
     super.key,
@@ -45,8 +43,7 @@ class PositionedDateTimeModal extends StatefulWidget {
     this.broadcastId,
     this.dateCaption,
     this.dateTimeBroadcast,
-    this.dateTimeFormat = PickerStyling.dateTimeFormat,
-    this.dateTimeType = DateTimeType.both,
+    this.dateTimeFormat,
     this.overrideXPos,
     this.overrideYPos,
     this.timeCaption,
@@ -75,7 +72,6 @@ class _SideModal extends State<PositionedDateTimeModal> {
         broadcastId: widget.broadcastId,
         dateCaption: widget.dateCaption,
         dateTimeFormat: widget.dateTimeFormat,
-        dateTimeType: widget.dateTimeType,
         left: widget.overrideXPos!,
         messageController: widget.dateTimeBroadcast,
         pickerMode: widget.pickerMode,

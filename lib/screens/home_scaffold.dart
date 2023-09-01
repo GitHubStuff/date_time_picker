@@ -67,12 +67,36 @@ class HomeScaffold extends StatelessWidget {
             useSeconds: false,
             pickerMode: PickerMode.light,
             setWidget: const AquaButton(),
-            dateCaption: _dateCaption,
+            dateCaption: null, //_dateCaption,
             timeCaption: _timeCaption,
             pickerSize: PickerStyling.pickerSize,
             dateTimeBroadcast: messageController,
             child: const Text(
               'Tap This!',
+              style: TextStyle(fontSize: 14.0),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: PositionedDateTimeModal(
+            sidePriority: const [
+              Sides.centerBottom,
+              Sides.right,
+              Sides.left,
+              Sides.centerTop,
+              Sides.top,
+              Sides.bottom
+            ],
+            useSeconds: false,
+            pickerMode: PickerMode.light,
+            setWidget: const AquaButton(),
+            dateCaption: _dateCaption,
+            timeCaption: null, //_timeCaption,
+            pickerSize: PickerStyling.pickerSize,
+            dateTimeBroadcast: messageController,
+            child: const Text(
+              'Or This!',
               style: TextStyle(fontSize: 14.0),
             ),
           ),

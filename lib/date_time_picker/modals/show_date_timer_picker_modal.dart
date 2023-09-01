@@ -8,19 +8,18 @@ import 'package:flutter/material.dart';
 
 Future<DateTime?> showDateTimePickerModal(
   BuildContext context, {
-  required Color barrierColor,
-  required Widget setWidget,
-  DateTimeType dateTimeType = DateTimeType.both,
   double? left,
   double? top,
   Object? broadcastId,
+  required bool useSeconds,
+  required Color barrierColor,
+  required PickerMode pickerMode,
+  required Widget setWidget,
   Size size = PickerStyling.pickerSize,
   StreamController<DateTimeBroadcast>? messageController,
   String? dateTimeFormat,
   Widget? dateCaption,
   Widget? timeCaption,
-  required bool useSeconds,
-  required PickerMode pickerMode,
 }) async {
   DateTime? result = await showGeneralDialog(
     context: context,
@@ -33,7 +32,10 @@ Future<DateTime?> showDateTimePickerModal(
       useSeconds: useSeconds,
       dateTimeCubit: DateTimeCubit(
         broadcastId: broadcastId,
-        dateTimeType: dateTimeType,
+        dateTimeType: DateTimeType.getType(
+          date: dateCaption,
+          time: timeCaption,
+        ),
         pickerMode: pickerMode,
       ),
       dateTimeFormat: dateTimeFormat,
