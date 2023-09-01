@@ -45,7 +45,7 @@ class HomeScaffold extends StatelessWidget {
                 useSeconds: true,
                 broadcastId: GlobalKey(),
                 barrierColor: const Color(0x0f000000),
-                setWidget: const Text('Set', style: _textStyle),
+                setWidget: const AquaButton(color: Colors.amber),
                 dateCaption: _dateCaption,
                 timeCaption: _timeCaption,
                 messageController: messageController,

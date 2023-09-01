@@ -33,9 +33,9 @@ Future<DateTime?> showDateTimePickerModal(
       dateTimeCubit: DateTimeCubit(
         broadcastId: broadcastId,
         dateTimeType: DateTimeType.getType(
-          date: dateCaption,
-          time: timeCaption,
-        ),
+            dateWidget: dateCaption,
+            timeWidget: timeCaption,
+            showSeconds: useSeconds),
         pickerMode: pickerMode,
       ),
       dateTimeFormat: dateTimeFormat,

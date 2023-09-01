@@ -19,7 +19,8 @@ class PickerStyling {
   static const Size spinnerSize = Size(width, 150.0);
   static const String dateFormat = 'EEE MMM d, y';
   static const String dateTimeFormat = 'EEE MMM d, y\nh:mm:ss a';
-  static const String timeFormat = 'h:mm:ss a';
+  static const String timeFormat = 'h:mm a';
+  static const String timeFormatWithSeconds = 'h:mm:ss a';
   static const TextStyle darkHeaderStyle = TextStyle(
       fontSize: 18.0, fontWeight: FontWeight.w500, color: Color(0xffff4500));
   static const TextStyle darkTextStyle = TextStyle(

@@ -6,15 +6,21 @@ enum Median { AM, PM }
 enum DateTimeType {
   date,
   time,
-  both;
+  timeWithSeconds,
+  both,
+  bothWithSeconds;
 
-  static DateTimeType getType({required Widget? date, required Widget? time}) {
-    if (date != null && time != null) {
-      return both;
-    } else if (date != null) {
+  static DateTimeType getType({
+    required Widget? dateWidget,
+    required Widget? timeWidget,
+    required bool showSeconds,
+  }) {
+    if (dateWidget != null && timeWidget != null) {
+      return showSeconds ? bothWithSeconds : both;
+    } else if (dateWidget != null) {
       return DateTimeType.date;
-    } else if (time != null) {
-      return DateTimeType.time;
+    } else if (timeWidget != null) {
+      return showSeconds ? timeWithSeconds : time;
     } else {
       assert(false, 'date and time cannot both be null');
       return DateTimeType.date;

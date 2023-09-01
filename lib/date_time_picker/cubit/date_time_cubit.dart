@@ -15,6 +15,61 @@ class DateTimeCubit extends Cubit<DateTimeState> {
     required PickerMode pickerMode,
   }) : super(_initialState(dateTimeType, initialDateTime, pickerMode));
 
+  // Getters for display properties
+  bool get displayDate =>
+      state.dateTimeType == DateTimeType.date ||
+      state.dateTimeType == DateTimeType.both;
+
+  bool get displayTime =>
+      state.dateTimeType == DateTimeType.time ||
+      state.dateTimeType == DateTimeType.both;
+
+  bool get displayTimeWithSeconds =>
+      state.dateTimeType == DateTimeType.timeWithSeconds ||
+      state.dateTimeType == DateTimeType.bothWithSeconds;
+
+  // Public methods for UI actions
+  /// Toggles the visibility of the picker between date and time.
+  void showPicker({required bool date}) => emit(state.copyWith(showDate: date));
+
+  /// Broadcasts the current DateTime or null based on the provided flag.
+  void setDateTime(bool dateTimeSet) {
+    final setTime = DateTime(
+      state.dateTime.year,
+      state.dateTime.month,
+      state.dateTime.day,
+      displayTime ? state.dateTime.hour : 0,
+      displayTime ? state.dateTime.minute : 0,
+      displayTimeWithSeconds ? state.dateTime.second : 0,
+    );
+    emit(state.copyWith(dateTime: setTime));
+    DateTimeBroadcastManager.broadcast(
+      dateTimeSet ? setTime : null,
+      broadcastId,
+    );
+  }
+
+  // Update methods
+  void updateYear(int year) => _updateDateTime(year: year);
+  void updateMonth(int month) => _updateDateTime(month: month + 1);
+  void updateDay(int day) => _updateDateTime(day: day);
+  void updateHour(int hour) {
+    hour = (state.median == Median.PM && hour != 12) ? hour + 12 : hour;
+    hour = (state.median == Median.AM && hour == 12) ? 0 : hour;
+    _updateDateTime(hour: hour);
+  }
+
+  void updateMinute(int minute) => _updateDateTime(minute: minute);
+  void updateSecond(int second) => _updateDateTime(second: second);
+
+  void updateMedian(Median median) {
+    int hour = state.dateTime.hour;
+    if (median == Median.AM && hour >= 12) hour -= 12;
+    if (median == Median.PM && hour < 12) hour += 12;
+    _updateDateTime(hour: hour);
+  }
+
+  // Private utility methods
   static DateTimeState _initialState(
     DateTimeType dateTimeType,
     DateTime? initialDateTime,
@@ -41,52 +96,6 @@ class DateTimeCubit extends Cubit<DateTimeState> {
         : monthDays[month - 1];
   }
 
-  bool get displayDate =>
-      state.dateTimeType == DateTimeType.date ||
-      state.dateTimeType == DateTimeType.both;
-  bool get displayTime =>
-      state.dateTimeType == DateTimeType.time ||
-      state.dateTimeType == DateTimeType.both;
-
-  /// If 'true' will show the date selection widget, otherwise will show the time selection widget.
-  void showPicker({required bool date}) => emit(state.copyWith(showDate: date));
-
-  /// If true it will Broadcast the current DateTime, otherwise it will broadcast null.
-  void setDateTime(bool dateTimeSet) {
-    final setTime = DateTime(
-      state.dateTime.year,
-      state.dateTime.month,
-      state.dateTime.day,
-      displayTime ? state.dateTime.hour : 0,
-      displayTime ? state.dateTime.minute : 0,
-      displayTime ? state.dateTime.second : 0,
-    );
-    emit(state.copyWith(dateTime: setTime));
-    DateTimeBroadcastManager.broadcast(
-      dateTimeSet ? setTime : null,
-      broadcastId,
-    );
-  }
-
-  void updateYear(int year) => _updateDateTime(year: year);
-  void updateMonth(int month) => _updateDateTime(month: month + 1);
-  void updateDay(int day) => _updateDateTime(day: day);
-  void updateHour(int hour) {
-    hour = (state.median == Median.PM && hour != 12) ? hour + 12 : hour;
-    hour = (state.median == Median.AM && hour == 12) ? 0 : hour;
-    _updateDateTime(hour: hour);
-  }
-
-  void updateMinute(int minute) => _updateDateTime(minute: minute);
-  void updateSecond(int second) => _updateDateTime(second: second);
-
-  void updateMedian(Median median) {
-    int hour = state.dateTime.hour;
-    if (median == Median.AM && hour >= 12) hour -= 12;
-    if (median == Median.PM && hour < 12) hour += 12;
-    _updateDateTime(hour: hour);
-  }
-
   void _updateDateTime({
     int? year,
     int? month,
@@ -98,8 +107,8 @@ class DateTimeCubit extends Cubit<DateTimeState> {
   }) {
     final currentDateTime = state.dateTime;
 
-    final currentDayCount = _daysInMonth(
-        currentDateTime.month, currentDateTime.year);
+    final currentDayCount =
+        _daysInMonth(currentDateTime.month, currentDateTime.year);
     final daysInMonth = _daysInMonth(
         month ?? currentDateTime.month, year ?? currentDateTime.year);
 
@@ -115,7 +124,7 @@ class DateTimeCubit extends Cubit<DateTimeState> {
       day: day,
       hour: hour ?? currentDateTime.hour,
       minute: minute ?? currentDateTime.minute,
-      second: second ?? currentDateTime.second,
+      second: displayTimeWithSeconds ?  (second ?? currentDateTime.second) : 0,
       millisecond: 0,
       microsecond: 0,
     );
@@ -125,7 +134,8 @@ class DateTimeCubit extends Cubit<DateTimeState> {
       median: newDateTime.hour >= 12 ? Median.PM : Median.AM,
       daysInMonth: _daysInMonth(newDateTime.month, newDateTime.year),
       showDate: showDate ?? state.showDate,
-      jumpToDateTime: day != currentDateTime.day || currentDayCount != daysInMonth,
+      jumpToDateTime:
+          day != currentDateTime.day || currentDayCount != daysInMonth,
     ));
   }
 }
